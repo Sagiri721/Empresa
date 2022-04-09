@@ -7,7 +7,13 @@ public class Movement : MonoBehaviour
     //Component references
     private CapsuleCollider2D collider_;
     private Rigidbody2D rigidbody_;
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer, armsRenderer;
+
+    //Arm tracking
+    private Animator animator, armsAnimator;
+    private Transform armsPos;
+
+    float axis = 0;
 
     //The movement speed and jump power
     public float spd = 5f, jumpPow = 100;
@@ -24,13 +30,21 @@ public class Movement : MonoBehaviour
         collider_ = GetComponent<CapsuleCollider2D>();
         rigidbody_ = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+
+        var arms = GameObject.FindGameObjectWithTag("Arms");
+
+        armsRenderer = arms.GetComponent<SpriteRenderer>();
+        armsAnimator = arms.GetComponent<Animator>();
+        armsPos = arms.GetComponent<Transform>();
     }
 
     private void FixedUpdate()
     {
+        axis = Input.GetAxis("Horizontal");
         //Movement code
         //Gets input
-        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
+        Vector3 movement = new Vector3(axis, 0, 0);
 
         //Checks for collision
         hit = Physics2D.BoxCast(transform.position, Vector2.zero, 0, new Vector2(movement.x, 0), collider_.size.x, LayerMask.GetMask("Player", "Collision"));
@@ -48,6 +62,28 @@ public class Movement : MonoBehaviour
         {
             rigidbody_.AddForce(Vector2.up * jumpPow);
         }
+
+        //Now for the animations
+        /*
+        Animation param names:
+        isIdle : bool
+        isOnAir : bool
+        */
+
+        animator.SetBool("isIdle", axis == 0);
+        animator.SetBool("isOnAir", !isGrounded);
+
+        armsAnimator.SetBool("isIdle", animator.GetBool("isIdle"));
+        armsAnimator.SetBool("isOnAir", animator.GetBool("isOnAir"));
+    }
+
+    private void LateUpdate()
+    {
+
+        //Update arms positions
+        armsPos.position = transform.position;
+
+        if (axis != 0) { spriteRenderer.flipX = axis < 0; armsRenderer.flipX = axis < 0; }
     }
 
     public void Knockback(float strength, Vector3 angle)
