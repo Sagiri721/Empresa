@@ -35,7 +35,7 @@ public class Movement : MonoBehaviour
         //Checks for collision
         hit = Physics2D.BoxCast(transform.position, Vector2.zero, 0, new Vector2(movement.x, 0), collider_.size.x, LayerMask.GetMask("Player", "Collision"));
 
-        isGrounded = Physics2D.BoxCast(transform.position, collider_.size, 0, Vector2.down, Mathf.Abs(collider_.size.y * 2), LayerMask.GetMask("Player", "Collision")).collider != null;
+        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, collider_.bounds.extents.y + 0.1f).collider != null;
 
         if (hit.collider == null)
             rigidbody_.transform.Translate(movement.x * Time.deltaTime * spd, 0, 0);
