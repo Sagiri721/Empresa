@@ -63,11 +63,11 @@ public class Movement : MonoBehaviour
             rigidbody_.AddForce(Vector2.up * jumpPow);
         }
 
-        //Now for the animations
         /*
+        Now for the animations
         Animation param names:
-        isIdle : bool
-        isOnAir : bool
+            isIdle : bool
+            isOnAir : bool
         */
 
         animator.SetBool("isIdle", axis == 0);
@@ -88,6 +88,6 @@ public class Movement : MonoBehaviour
 
     public void Knockback(float strength, Vector3 angle)
     {
-        rigidbody_.AddForce(-angle * strength);
+        rigidbody_.AddForce(-angle * strength * 3);
     }
 }
