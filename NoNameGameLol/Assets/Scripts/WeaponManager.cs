@@ -71,7 +71,7 @@ public class WeaponManager : MonoBehaviour
 
     #region
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         weaponInventory[0] = GameObject.Find("arms");
         weaponInventory[1] = GameObject.Find("keyboardgun");
@@ -111,15 +111,16 @@ public class WeaponManager : MonoBehaviour
 
             if (Input.GetKey(KeyCode.I)) //Rotate upwards
             {
-                if (weaponInventory[currentWeapon].transform.rotation.z <= 0.5f)
+                if (weaponInventory[currentWeapon].transform.rotation.z <= 0.5f * inv)
                     weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, 1 * Time.deltaTime * rotSpeed * inv), Space.Self);
             }
             else if (Input.GetKey(KeyCode.K)) //Rotate downwards
             {
-                if (weaponInventory[currentWeapon].transform.rotation.z >= -0.5f)
+                if (weaponInventory[currentWeapon].transform.rotation.z >= -0.5f * inv)
                     weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, -1 * Time.deltaTime * rotSpeed * inv), Space.Self);
             }
 
+            Debug.Log(weaponInventory[currentWeapon].transform.eulerAngles.z);
         }
     }
 

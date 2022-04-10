@@ -113,10 +113,12 @@ public class Movement : MonoBehaviour
         //If we change direction tweak weapon rotation
         if (WeaponManager.IsCurrentWeaponRotatable())
         {
-            if (Input.GetKeyDown(KeyCode.A) && !weaponRenderer.flipX)
+
+            if (Input.GetKeyDown(KeyCode.D) && weaponRenderer.flipX)
                 weaponPos.rotation = Quaternion.Euler(0, 0, 360 - weaponPos.eulerAngles.z);
-            else if (Input.GetKeyDown(KeyCode.D) && weaponRenderer.flipX)
+            else if (Input.GetKeyDown(KeyCode.A) && !weaponRenderer.flipX)
                 weaponPos.rotation = Quaternion.Euler(0, 0, 360 - weaponPos.eulerAngles.z);
+
         }
 
         if (axis != 0)
