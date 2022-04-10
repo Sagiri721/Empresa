@@ -7,11 +7,11 @@ public class Movement : MonoBehaviour
     //Component references
     private CapsuleCollider2D collider_;
     private Rigidbody2D rigidbody_;
-    private SpriteRenderer spriteRenderer, armsRenderer;
+    private SpriteRenderer spriteRenderer, weaponRenderer;
 
     //Arm tracking
-    private Animator animator, armsAnimator;
-    private Transform armsPos;
+    private Animator animator, weaponAnimator;
+    private Transform weaponPos;
 
     float axis = 0;
 
@@ -32,11 +32,35 @@ public class Movement : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
 
-        var arms = GameObject.FindGameObjectWithTag("Arms");
+        var weapon = WeaponManager.GetCurrentWeapon();
 
-        armsRenderer = arms.GetComponent<SpriteRenderer>();
-        armsAnimator = arms.GetComponent<Animator>();
-        armsPos = arms.GetComponent<Transform>();
+        weaponRenderer = weapon.GetComponent<SpriteRenderer>();
+        weaponAnimator = weapon.GetComponent<Animator>();
+        weaponPos = weapon.GetComponent<Transform>();
+
+        AnimationReset();
+    }
+
+    private void AnimationReset()
+    {
+
+        animator.SetBool("isIdle", true);
+        animator.SetBool("isOnAir", false);
+
+        weaponAnimator.SetBool("isIdle", animator.GetBool("isIdle"));
+        weaponAnimator.SetBool("isOnAir", animator.GetBool("isOnAir"));
+    }
+
+    public void ChangeWeapon(GameObject weapon)
+    {
+
+        weaponRenderer = weapon.GetComponent<SpriteRenderer>();
+        weaponAnimator = weapon.GetComponent<Animator>();
+        weaponPos = weapon.GetComponent<Transform>();
+
+        weaponRenderer.flipX = spriteRenderer.flipX;
+
+        AnimationReset();
     }
 
     private void FixedUpdate()
@@ -49,7 +73,10 @@ public class Movement : MonoBehaviour
         //Checks for collision
         hit = Physics2D.BoxCast(transform.position, Vector2.zero, 0, new Vector2(movement.x, 0), collider_.size.x, LayerMask.GetMask("Player", "Collision"));
 
-        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, collider_.bounds.extents.y + 0.1f).collider != null;
+        RaycastHit2D a = Physics2D.Raycast(new Vector2(transform.position.x - collider_.bounds.extents.x, transform.position.y), Vector2.down, collider_.bounds.extents.y + 0.1f);
+        RaycastHit2D b = Physics2D.Raycast(new Vector2(transform.position.x + collider_.bounds.extents.x, transform.position.y), Vector2.down, collider_.bounds.extents.y + 0.1f);
+
+        isGrounded = a.collider != null || b.collider != null;
 
         if (hit.collider == null)
             rigidbody_.transform.Translate(movement.x * Time.deltaTime * spd, 0, 0);
@@ -73,17 +100,30 @@ public class Movement : MonoBehaviour
         animator.SetBool("isIdle", axis == 0);
         animator.SetBool("isOnAir", !isGrounded);
 
-        armsAnimator.SetBool("isIdle", animator.GetBool("isIdle"));
-        armsAnimator.SetBool("isOnAir", animator.GetBool("isOnAir"));
+        weaponAnimator.SetBool("isIdle", animator.GetBool("isIdle"));
+        weaponAnimator.SetBool("isOnAir", animator.GetBool("isOnAir"));
     }
 
     private void LateUpdate()
     {
 
-        //Update arms positions
-        armsPos.position = transform.position;
+        //Update weapon positions
+        weaponPos.position = transform.position;
 
-        if (axis != 0) { spriteRenderer.flipX = axis < 0; armsRenderer.flipX = axis < 0; }
+        //If we change direction tweak weapon rotation
+        if (WeaponManager.IsCurrentWeaponRotatable())
+        {
+            if (Input.GetKeyDown(KeyCode.A) && !weaponRenderer.flipX)
+                weaponPos.rotation = Quaternion.Euler(0, 0, 360 - weaponPos.eulerAngles.z);
+            else if (Input.GetKeyDown(KeyCode.D) && weaponRenderer.flipX)
+                weaponPos.rotation = Quaternion.Euler(0, 0, 360 - weaponPos.eulerAngles.z);
+        }
+
+        if (axis != 0)
+        {
+            spriteRenderer.flipX = axis < 0;
+            weaponRenderer.flipX = axis < 0;
+        }
     }
 
     public void Knockback(float strength, Vector3 angle)

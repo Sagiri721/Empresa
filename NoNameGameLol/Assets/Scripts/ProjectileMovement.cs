@@ -5,7 +5,8 @@ using UnityEngine;
 public class ProjectileMovement : MonoBehaviour
 {
     //Speed with wich it moves
-    public int speed = 1;
+    //Knockback strength
+    public int speed = 1, knockbackPow = 30;
 
     [SerializeField]
     private int damage;
@@ -23,7 +24,7 @@ public class ProjectileMovement : MonoBehaviour
     private void OnCollisionStay2D(Collision2D other)
     {
         if (other.gameObject.tag.Equals("Player"))
-            other.gameObject.GetComponent<Movement>().Knockback(70, -transform.position);
+            other.gameObject.GetComponent<Movement>().Knockback(knockbackPow, -transform.position);
         Destroy(gameObject);
     }
 }

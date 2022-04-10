@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  knockbackPow: 10
   damage: 5
 --- !u!70 &5197857180038825152
 CapsuleCollider2D:
