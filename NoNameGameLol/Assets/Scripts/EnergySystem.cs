@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnergySystem : MonoBehaviour
+public class EnergySystem
 {
-    private int maxEnergy;
+    public int maxEnergy;
     private int currentEnergy;
 
     public EnergySystem(int maxEnergy)

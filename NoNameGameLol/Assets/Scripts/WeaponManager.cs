@@ -134,8 +134,6 @@ public class WeaponManager : MonoBehaviour
                     weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, 1 * Time.deltaTime * rotSpeed), Space.Self);
                 }
             }
-
-            Debug.Log(weaponInventory[currentWeapon].transform.rotation.z);
         }
     }
 
