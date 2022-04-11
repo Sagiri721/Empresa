@@ -20,11 +20,11 @@ public class PlayerHealth : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "Enemy":
-                hp.HurtPlayer(other.gameObject.GetComponent<Enemy>().Damage);
+                hp.Hurt(other.gameObject.GetComponent<Enemy>().Damage);
 
                 break;
             case "Projectiles":
-                hp.HurtPlayer(other.gameObject.GetComponent<ProjectileMovement>().Damage);
+                hp.Hurt(other.gameObject.GetComponent<ProjectileMovement>().Damage);
                 break;
         }
 

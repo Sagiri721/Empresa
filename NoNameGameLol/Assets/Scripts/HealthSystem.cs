@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class HealthSystem
 {
-    private int playerMaxHealth;
-    private int playerCurrentHealth;
+    private int maxHealth;
+    private int currentHealth;
 
     public HealthSystem(int maxHp)
     {
-        playerMaxHealth = maxHp;
-        playerCurrentHealth = playerMaxHealth;
+        maxHealth = maxHp;
+        currentHealth = maxHealth;
     }
 
-    public int Hp { get { return playerCurrentHealth; } }
+    public int Hp { get { return currentHealth; } }
 
-    // HurtPlayer is called every time a collision with an object with the "enemy" tag occurs.
-    public void HurtPlayer(int damageReceived)
+    // Hurt is called every time a collision with an object that deals damage occurs.
+    public void Hurt(int damageReceived)
     {
-        playerCurrentHealth -= damageReceived;
+        currentHealth -= damageReceived;
 
-        if (playerCurrentHealth <= 0)
+        if (currentHealth <= 0)
         {
             //gameObject.SetActive(false);
             //Por razões fixes é melhor não fazer isto porque referencias = null be like :)
@@ -30,13 +30,13 @@ public class HealthSystem
     }
 
     // HealPlayer is called every time an item with healing properties is used
-    public void HealPlayer(int damageHealed)
+    public void Heal(int damageHealed)
     {
-        playerCurrentHealth += damageHealed;
+        currentHealth += damageHealed;
 
-        if (playerCurrentHealth > playerMaxHealth)
+        if (currentHealth > maxHealth)
         {
-            playerCurrentHealth = playerMaxHealth;
+            currentHealth = maxHealth;
         }
     }
 
@@ -45,10 +45,10 @@ public class HealthSystem
      * ChangeMaxHealth is called every time an effect that changes the max health is applied
     public void ChangeMaxHealth(int changeAmount)
     {
-        playerMaxHealth += changeAmount;
-        if (playerMaxHealth <= 0)
+        maxHealth += changeAmount;
+        if (maxHealth <= 0)
         {
-            playerMaxHealth = 1; // This check is just to prevent these effects from killing the player or leaving them at an invalid health.
+            maxHealth = 1; // This check is just to prevent these effects from killing the player or leaving them at an invalid health.
         }
     } */
 }
