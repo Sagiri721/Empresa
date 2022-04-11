@@ -109,18 +109,33 @@ public class WeaponManager : MonoBehaviour
         if (GetCurrentWeapon().tag.Equals("Rotatable"))
         {
 
-            if (Input.GetKey(KeyCode.I)) //Rotate upwards
+            float angle = weaponInventory[currentWeapon].transform.rotation.z;
+
+            if (inv == 1)
             {
-                if (weaponInventory[currentWeapon].transform.rotation.z <= 0.5f * inv)
-                    weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, 1 * Time.deltaTime * rotSpeed * inv), Space.Self);
+                if (Input.GetKey(KeyCode.I) && angle < 0.5f) //Rotate upwards
+                {
+                    weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, 1 * Time.deltaTime * rotSpeed), Space.Self);
+                }
+                else if (Input.GetKey(KeyCode.K) && angle > -0.5f) //Rotate downwards
+                {
+                    weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, -1 * Time.deltaTime * rotSpeed), Space.Self);
+                }
             }
-            else if (Input.GetKey(KeyCode.K)) //Rotate downwards
+            else
             {
-                if (weaponInventory[currentWeapon].transform.rotation.z >= -0.5f * inv)
-                    weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, -1 * Time.deltaTime * rotSpeed * inv), Space.Self);
+
+                if (Input.GetKey(KeyCode.I) && angle > -0.5f) //Rotate upwards
+                {
+                    weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, -1 * Time.deltaTime * rotSpeed), Space.Self);
+                }
+                else if (Input.GetKey(KeyCode.K) && angle < 0.5f) //Rotate downwards
+                {
+                    weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, 1 * Time.deltaTime * rotSpeed), Space.Self);
+                }
             }
 
-            Debug.Log(weaponInventory[currentWeapon].transform.eulerAngles.z);
+            Debug.Log(weaponInventory[currentWeapon].transform.rotation.z);
         }
     }
 

@@ -114,11 +114,14 @@ public class Movement : MonoBehaviour
         if (WeaponManager.IsCurrentWeaponRotatable())
         {
 
-            if (Input.GetKeyDown(KeyCode.D) && weaponRenderer.flipX)
-                weaponPos.rotation = Quaternion.Euler(0, 0, 360 - weaponPos.eulerAngles.z);
-            else if (Input.GetKeyDown(KeyCode.A) && !weaponRenderer.flipX)
-                weaponPos.rotation = Quaternion.Euler(0, 0, 360 - weaponPos.eulerAngles.z);
-
+            if (Input.GetKeyDown(KeyCode.A) && !spriteRenderer.flipX)
+            {
+                weaponPos.transform.rotation = Quaternion.Inverse(weaponPos.rotation);
+            }
+            if (Input.GetKeyDown(KeyCode.D) && spriteRenderer.flipX)
+            {
+                weaponPos.transform.rotation = Quaternion.Inverse(weaponPos.rotation);
+            }
         }
 
         if (axis != 0)
