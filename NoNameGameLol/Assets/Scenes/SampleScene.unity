@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealthPoints: 100
+  maxEnergyPoints: 700
 --- !u!114 &275463220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,11 +174,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1442674058326594889, guid: 35836fda63c8b7742ad99b4cd18da165, type: 3}
       propertyPath: m_Name
-      value: Wall (5)
+      value: tecto invisivel
       objectReference: {fileID: 0}
     - target: {fileID: 1442674058326594889, guid: 35836fda63c8b7742ad99b4cd18da165, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1442674058326594890, guid: 35836fda63c8b7742ad99b4cd18da165, type: 3}
       propertyPath: m_RootOrder
@@ -197,7 +198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1442674058326594890, guid: 35836fda63c8b7742ad99b4cd18da165, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.2015905
+      value: 6.2015905
       objectReference: {fileID: 0}
     - target: {fileID: 1442674058326594890, guid: 35836fda63c8b7742ad99b4cd18da165, type: 3}
       propertyPath: m_LocalPosition.z
@@ -229,6 +230,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1442674058326594890, guid: 35836fda63c8b7742ad99b4cd18da165, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1442674058326594891, guid: 35836fda63c8b7742ad99b4cd18da165, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -391,7 +396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1212687522}
   m_Layer: 0
-  m_Name: Solids
+  m_Name: Tecto invisivel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

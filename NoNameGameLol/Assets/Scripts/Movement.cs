@@ -73,10 +73,14 @@ public class Movement : MonoBehaviour
         //Checks for collision
         hit = Physics2D.BoxCast(transform.position, Vector2.zero, 0, new Vector2(movement.x, 0), collider_.size.x, LayerMask.GetMask("Player", "Collision"));
 
+        //Quão mau querem este código de colisão?
+        //Tiago + Vicente: Sim
+
         RaycastHit2D a = Physics2D.Raycast(new Vector2(transform.position.x - collider_.bounds.extents.x, transform.position.y), Vector2.down, collider_.bounds.extents.y + 0.1f);
         RaycastHit2D b = Physics2D.Raycast(new Vector2(transform.position.x + collider_.bounds.extents.x, transform.position.y), Vector2.down, collider_.bounds.extents.y + 0.1f);
+        RaycastHit2D c = Physics2D.Raycast(transform.position, Vector2.down, collider_.bounds.extents.y + 0.1f);
 
-        isGrounded = a.collider != null || b.collider != null;
+        isGrounded = a.collider != null || b.collider != null || c.collider != null;
 
         if (hit.collider == null)
             rigidbody_.transform.Translate(movement.x * Time.deltaTime * spd, 0, 0);

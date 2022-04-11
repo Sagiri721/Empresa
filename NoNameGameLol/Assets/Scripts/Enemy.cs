@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour
         Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, angle));
     }
 
+    #region//Hummmmmm broken internet code 
     public void FireProjectileToPlayer()
     {
         Transform t = GameObject.FindWithTag("Player").GetComponent<Transform>();
@@ -44,9 +45,10 @@ public class Enemy : MonoBehaviour
 
         Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, 90 * ((Mathf.Sign(dir.x) == -1) ? 1 : 0) + angle));
     }
+    #endregion
 
     private void Start()
     {
-        InvokeRepeating("FireProjectileToPlayer", 0f, 2f);
+        //InvokeRepeating("FireProjectileToPlayer", 0f, 2f);
     }
 }
