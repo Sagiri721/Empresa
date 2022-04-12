@@ -5,15 +5,19 @@ using UnityEngine;
 
 public class HudController : MonoBehaviour
 {
+    public string[] weaponNames;
 
     //The difente faces of the robot
     public Sprite[] faces;
 
-    private RectTransform hpSize, mpSize;
+    private RectTransform hpSize, mpSize, recoil;
 
     //The robot's face on top
     private Image image;
     private int currentImage = 0;
+
+    GameObject recoilIndicator;
+    Text weaponIndicator;
 
     //Reference to the players hp, energy, and all of that
     private PlayerMeters meters;
@@ -29,6 +33,9 @@ public class HudController : MonoBehaviour
         weaponManager = player.GetComponent<WeaponManager>();
 
         image = GetComponent<Image>();
+        weaponIndicator = GetComponentInChildren<Text>();
+        recoilIndicator = GameObject.Find("RecoilInd");
+        recoil = recoilIndicator.GetComponent<RectTransform>();
 
         image.sprite = faces[currentImage];
 
@@ -42,6 +49,23 @@ public class HudController : MonoBehaviour
         mp.GetComponent<Image>().color = Color.blue;
 
         UpdateHudValues();
+        UpdateWeaponUI();
+    }
+
+    private void Update()
+    {
+        recoil.offsetMax = new Vector2(weaponManager.Recoil, recoil.offsetMax.y);
+    }
+
+    public void UpdateWeaponUI()
+    {
+        weaponIndicator.text = "Current weapon: " + weaponNames[weaponManager.CurrentWeapon];
+        if (WeaponManager.GetCurrentWeapon().tag == "Rotatable")
+            recoilIndicator.SetActive(true);
+        else
+        {
+            recoilIndicator.SetActive(false);
+        }
     }
 
     public void UpdateHudValues()

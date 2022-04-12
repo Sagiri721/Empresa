@@ -18,11 +18,16 @@ public class Movement : MonoBehaviour
     //The movement speed and jump power
     public float spd = 5f, jumpPow = 100;
 
+    [HideInInspector]
+    public float normalSpd;
+
     //The horizontal collision hit info
     RaycastHit2D hit;
 
     //Is the player on ground?
     private bool isGrounded = true;
+
+    public bool IsGrounded { get { return isGrounded; } }
 
     void Start()
     {
@@ -37,6 +42,8 @@ public class Movement : MonoBehaviour
         weaponRenderer = weapon.GetComponent<SpriteRenderer>();
         weaponAnimator = weapon.GetComponent<Animator>();
         weaponPos = weapon.GetComponent<Transform>();
+
+        normalSpd = spd;
 
         AnimationReset();
     }

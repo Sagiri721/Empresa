@@ -19,8 +19,15 @@ public class WeaponManager : MonoBehaviour
 
     public bool CanSwap { get { return canSwap; } set { canSwap = value; } }
 
+    public int CurrentWeapon { get { return currentWeapon; } }
+
     //The speed with wich you can rotate the weapon around
     public int rotSpeed = 1;
+
+    public int maxRecoil = 135;
+    private float recoil = 135;
+
+    public float Recoil { get { return recoil; } set { recoil = value; } }
 
     //-----------------------------------
     //Methods
@@ -81,6 +88,10 @@ public class WeaponManager : MonoBehaviour
     void Update()
     {
 
+        if (recoil < maxRecoil)
+            recoil += GetCurrentWeapon().GetComponent<Weapon>().recoilSpd;
+
+        //Sistema de mudança de arma através de numeros
         //Para automatizar
         //If key 0/1/2/3/... is pressed change to the adequate weapon
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -91,9 +102,10 @@ public class WeaponManager : MonoBehaviour
             GetComponent<Movement>().ChangeWeapon(weaponInventory[0]);
 
             currentWeapon = 0;
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+            GameObject.FindWithTag("HUD").GetComponent<HudController>().UpdateWeaponUI();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             weaponInventory[currentWeapon].GetComponent<SpriteRenderer>().enabled = false;
             weaponInventory[1].GetComponent<SpriteRenderer>().enabled = true;
@@ -101,10 +113,13 @@ public class WeaponManager : MonoBehaviour
             GetComponent<Movement>().ChangeWeapon(weaponInventory[1]);
 
             currentWeapon = 1;
+
+            GameObject.FindWithTag("HUD").GetComponent<HudController>().UpdateWeaponUI();
         }
 
         int inv = GetComponent<SpriteRenderer>().flipX ? -1 : 1;
 
+        //Sistema de rotação da arma
         //Rotate the weapon given the input
         if (GetCurrentWeapon().tag.Equals("Rotatable"))
         {

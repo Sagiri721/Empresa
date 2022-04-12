@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Projectiles
   - Rotatable
+  - HUD
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - UI
   - Player
   - Collision
-  - 
-  - 
+  - FriendlyFire
+  - EnemyFire
   - 
   - 
   - 
