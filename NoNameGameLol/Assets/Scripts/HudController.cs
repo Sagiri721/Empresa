@@ -20,7 +20,7 @@ public class HudController : MonoBehaviour
     Text weaponIndicator;
 
     //Reference to the players hp, energy, and all of that
-    private PlayerMeters meters;
+    private PlayerHandler meters;
     //Reference to the players weapon inventory and such
     private WeaponManager weaponManager;
 
@@ -29,7 +29,7 @@ public class HudController : MonoBehaviour
         //Get values for variables
         var player = GameObject.FindGameObjectWithTag("Player");
 
-        meters = player.GetComponent<PlayerMeters>();
+        meters = player.GetComponent<PlayerHandler>();
         weaponManager = player.GetComponent<WeaponManager>();
 
         image = GetComponent<Image>();
