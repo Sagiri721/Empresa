@@ -38,6 +38,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\EnergySystem.cs" />
      <Compile Include="Assets\Scripts\Weapon.cs" />
+     <Compile Include="Assets\Scripts\Items.cs" />
      <Compile Include="Assets\Scripts\Movement.cs" />
      <Compile Include="Assets\Scripts\WeaponManager.cs" />
      <Compile Include="Assets\Scripts\PlayerHandler.cs" />
@@ -45,7 +46,9 @@
      <Compile Include="Assets\Scripts\ProjectileMovement.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\HudController.cs" />
-     <Compile Include="Assets\Scripts\Items.cs" />
+     <Compile Include="Assets\Scripts\Enemy Ai\SimpleMovement.cs" />
+     <Compile Include="Assets\Scripts\Enemy Ai\CollisionCheck.cs" />
+     <Compile Include="Assets\Scripts\Enemy Ai\HealthBarManager.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

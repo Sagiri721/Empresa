@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
     }
 
     //Returns the distance from a certain object
-    public double GetDistanceFromObject(GameObject obj)
+    public float GetDistanceFromObject(GameObject obj)
     {
         Vector2 dist = obj.transform.position - transform.position;
 
@@ -33,22 +33,15 @@ public class Enemy : MonoBehaviour
         Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, angle));
     }
 
-    #region//Hummmmmm broken internet code 
-    public void FireProjectileToPlayer()
-    {
-        Transform t = GameObject.FindWithTag("Player").GetComponent<Transform>();
-
-        //get the direction of the other object from current object
-        Vector3 dir = t.position - transform.position;
-        //get the angle from current direction facing to desired target
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-        Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, 90 * ((Mathf.Sign(dir.x) == -1) ? 1 : 0) + angle));
-    }
-    #endregion
-
     private void Start()
     {
         //InvokeRepeating("FireProjectileToPlayer", 0f, 2f);
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+
+        if (other.gameObject.layer == 8)
+            hp.Hurt(other.gameObject.GetComponent<ProjectileMovement>().Damage);
     }
 }
