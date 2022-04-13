@@ -20,6 +20,9 @@ public class Weapon : MonoBehaviour
     //Can it fire projectiles?
     public bool canShoot;
 
+    //The energy it consumes shooting
+    public int energyConsume = 0;
+
     WeaponManager weaponManager;
 
     public float recoilSpd = 0.2f;
@@ -83,5 +86,9 @@ public class Weapon : MonoBehaviour
         pm.dir = flipX == 1 ? transform.right : -transform.right;
 
         weaponManager.Recoil = 0;
+
+        //Remove energy
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHandler>().energy.Use(energyConsume);
+        GameObject.FindWithTag("HUD").GetComponent<HudController>().UpdateHudValues();
     }
 }

@@ -7,20 +7,25 @@ public class HudController : MonoBehaviour
 {
     public string[] weaponNames;
 
+    //The name of all the itemss
+    public string[] itemsNames = { "Pilha", "Processador", "Power supply" };
+    //The image of all the items
+    public Sprite[] itemsImages;
+
     //The difente faces of the robot
     public Sprite[] faces;
 
     private RectTransform hpSize, mpSize, recoil;
 
-    //The robot's face on top
-    private Image image;
+    //The robot's face on top, and the item indicator
+    private Image image, itemImage;
     private int currentImage = 0;
 
     GameObject recoilIndicator;
-    Text weaponIndicator;
+    Text weaponIndicator, slotIndicator;
 
     //Reference to the players hp, energy, and all of that
-    private PlayerMeters meters;
+    private PlayerHandler meters;
     //Reference to the players weapon inventory and such
     private WeaponManager weaponManager;
 
@@ -29,10 +34,13 @@ public class HudController : MonoBehaviour
         //Get values for variables
         var player = GameObject.FindGameObjectWithTag("Player");
 
-        meters = player.GetComponent<PlayerMeters>();
+        meters = player.GetComponent<PlayerHandler>();
         weaponManager = player.GetComponent<WeaponManager>();
 
         image = GetComponent<Image>();
+        itemImage = GameObject.Find("ItemImage").GetComponent<Image>();
+        slotIndicator = GameObject.Find("ItemImage").GetComponentInChildren<Text>();
+
         weaponIndicator = GetComponentInChildren<Text>();
         recoilIndicator = GameObject.Find("RecoilInd");
         recoil = recoilIndicator.GetComponent<RectTransform>();
@@ -50,6 +58,8 @@ public class HudController : MonoBehaviour
 
         UpdateHudValues();
         UpdateWeaponUI();
+
+        ChangeItemImage(0, 0);
     }
 
     private void Update()
@@ -94,6 +104,13 @@ public class HudController : MonoBehaviour
 
         if (cur <= 0)
             SetImage(3);
+    }
+
+    public void ChangeItemImage(int num, int slot)
+    {
+
+        slotIndicator.text = "Slot " + (slot + 1);
+        itemImage.sprite = itemsImages[num];
     }
 
     private void SetImage(int num)
