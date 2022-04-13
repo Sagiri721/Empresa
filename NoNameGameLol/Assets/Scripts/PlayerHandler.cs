@@ -24,9 +24,11 @@ public class PlayerHandler : MonoBehaviour
     //Counter to keep track of the column containing the selected item
     int arrayCounter = 0;
 
-    //Matriz placeholder de 2 linhas e colunas ilimitadas que serve como inventário de item. (A parte de 5 colunas é inteiramente arbitrária)
-    //No futuro quando já tivermos concordado em todos os items que vão existir, isto vai ser substituído por um .json, mas funciona por agora.
-    private int[,] itemInventory = new int[2, 5];
+    //Matriz placeholder de 2 linhas e colunas ilimitadas que serve como inventário de item.
+    private int[,] itemInventory = new int[2, 0];
+
+    //Do we have items in the first place?
+    private bool itemExists;
 
     private void Awake()
     {
@@ -60,19 +62,18 @@ public class PlayerHandler : MonoBehaviour
 
     private void Update()
     {
-
-        if (Input.anyKey) //Para eliminar estes checks todos em frames onde nada está a ser pressionado
+        //Hurt your self
+        if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            //Hurt your self
-            if (Input.GetKeyDown(KeyCode.Backspace))
-            {
-                hp.Hurt(5);
-                hud.UpdateHudValues();
-                return;
-            }
+            hp.Hurt(5);
+            hud.UpdateHudValues();
+            return;
+        }
 
+        if (Input.anyKey && itemExists) //Para eliminar estes checks todos em frames onde nada está a ser pressionado e todos os frames em que não temos items
+        {
             //Item use when pressing L
-            if (Input.GetKeyDown(KeyCode.L) && itemInventory[1, arrayCounter] > 0)
+            if (Input.GetKeyDown(KeyCode.L))
             {
                 switch (itemInventory[0, arrayCounter])
                 {
@@ -84,8 +85,29 @@ public class PlayerHandler : MonoBehaviour
                     case 2: //código da função do item 2
                         break;
                 }
-
+                //Remove 1 from the quantity of the selected item. If the quantity is now 0, remove the item altogether from the array
                 itemInventory[1, arrayCounter]--;
+                if (itemInventory[1, arrayCounter] == 0)
+                {
+                    if (arrayCounter == itemInventory.GetLength(1) - 1)
+                    {
+                        itemInventory = ResizeArray(itemInventory, itemInventory.GetLength(1) - 1);
+                        arrayCounter--;
+                    }
+                    else
+                    {
+                        for(int i = arrayCounter; i < itemInventory.GetLength(1) - 1; i++)
+                        {
+                            itemInventory[0, i] = itemInventory[0, i + 1];
+                            itemInventory[1, i] = itemInventory[1, i + 1];
+                            itemInventory = ResizeArray(itemInventory, itemInventory.GetLength(1) - 1);
+                        }
+                    }
+                    if (itemInventory.GetLength(1) == 0)
+                    {
+                        itemExists = false;
+                    }
+                }
                 return;
             }
 
@@ -118,6 +140,7 @@ public class PlayerHandler : MonoBehaviour
     //Inventory functions
     public void AddToInventory(Items items, int quantity)
     {
+        itemExists = true;
 
         //Check if already on inventory
         for (int i = 0; i < itemInventory.GetLength(1); i++)
@@ -128,32 +151,41 @@ public class PlayerHandler : MonoBehaviour
                 return;
             }
         }
-
-        //If not just add to last position if it exists
-        int pos = GetLastPos();
-
-        if (pos != -1)
-        {
-            itemInventory[0, pos] = items.id;
-            itemInventory[1, pos] = quantity;
-        }
+        
+        //If not resize the array to include the new id and the assigned quantity
+        itemInventory = ResizeArray(itemInventory, itemInventory.GetLength(1) + 1);
+        itemInventory[0, itemInventory.GetLength(1) - 1] = items.id;
+        itemInventory[1, itemInventory.GetLength(1) - 1] = items.quantity;
 
         hud.ChangeItemImage(itemInventory[0, arrayCounter], arrayCounter);
     }
 
-    private int GetLastPos()
+    //Resize the inventory array. A new row number isn't necessary since there will always be 2 rows.
+    private int[,] ResizeArray(int[,] original, int newColumnNumber)
     {
-        for (int i = 0; i < itemInventory.GetLength(1); i++)
+        int[,] newArray = new int[2, newColumnNumber];
+        if (newColumnNumber < original.GetLength(1))
         {
-            if (itemInventory[1, i] == 0)
-                return i;
+            for (int i = 0; i < 2; i++)
+            {
+                for (int i1 = 0; i1 < newColumnNumber; i1++)
+                {
+                    newArray[i, i1] = original[i, i1];
+                }
+            }
         }
-
-        //Inventory is full
-        return -1;
+        else
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                for (int i1 = 0; i1 < original.GetLength(1); i1++)
+                {
+                    newArray[i, i1] = original[i, i1];
+                }
+            }
+        }
+        return newArray;
     }
-
-
     #region 
     //Ignore this
     public int GetMaxHealth()
