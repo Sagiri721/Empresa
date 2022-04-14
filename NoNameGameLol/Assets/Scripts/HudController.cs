@@ -55,20 +55,11 @@ public class HudController : MonoBehaviour
 
         hp.GetComponent<Image>().color = Color.green;
         mp.GetComponent<Image>().color = Color.blue;
-
-        UpdateHudValues();
-        UpdateWeaponUI();
-
-        ChangeItemImage(0, 0);
     }
-
-    private void Update()
+    private void LateUpdate()
     {
         recoil.offsetMax = new Vector2(weaponManager.Recoil, recoil.offsetMax.y);
-    }
 
-    public void UpdateWeaponUI()
-    {
         weaponIndicator.text = "Current weapon: " + weaponNames[weaponManager.CurrentWeapon];
         if (WeaponManager.GetCurrentWeapon().tag == "Rotatable")
             recoilIndicator.SetActive(true);
@@ -76,11 +67,9 @@ public class HudController : MonoBehaviour
         {
             recoilIndicator.SetActive(false);
         }
-    }
 
-    public void UpdateHudValues()
-    {
-
+        //-------------------------------------------------
+        //HP and MP bar
         //Calculate the hp and mp percentage
         float hpPercent = (Mathf.Abs(meters.GetMaxHealth() - meters.GetCurrentHealth()) / (float)meters.GetMaxHealth());
         float mpPercent = (Mathf.Abs(meters.GetMaxEnergy() - meters.GetCurrentEnergy()) / (float)meters.GetMaxEnergy());
@@ -104,13 +93,11 @@ public class HudController : MonoBehaviour
 
         if (cur <= 0)
             SetImage(3);
-    }
 
-    public void ChangeItemImage(int num, int slot)
-    {
-
-        slotIndicator.text = "Slot " + (slot + 1);
-        itemImage.sprite = itemsImages[num];
+        //-------------------------------------------------
+        //Weapon indicator
+        slotIndicator.text = "Slot " + (meters.ArrayCounter + 1);
+        itemImage.sprite = itemsImages[meters.GetCurrentItemId()];
     }
 
     private void SetImage(int num)

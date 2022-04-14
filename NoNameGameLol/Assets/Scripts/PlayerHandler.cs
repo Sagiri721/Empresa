@@ -21,14 +21,16 @@ public class PlayerHandler : MonoBehaviour
     //Referencia à classe de operações com energia
     public EnergySystem energy;
 
+    //Do we have items in the first place?
+    private bool itemExists = false;
+
     //Counter to keep track of the column containing the selected item
     int arrayCounter = 0;
 
+    public int ArrayCounter { get { return arrayCounter; } }
+
     //Matriz placeholder de 2 linhas e colunas ilimitadas que serve como inventário de item.
     private int[,] itemInventory = new int[2, 0];
-
-    //Do we have items in the first place?
-    private bool itemExists;
 
     private void Awake()
     {
@@ -48,12 +50,10 @@ public class PlayerHandler : MonoBehaviour
         {
             case "Enemy":
                 hp.Hurt(other.gameObject.GetComponent<Enemy>().Damage);
-                hud.UpdateHudValues();
 
                 break;
             case "Projectiles":
                 hp.Hurt(other.gameObject.GetComponent<ProjectileMovement>().Damage);
-                hud.UpdateHudValues();
 
                 break;
         }
@@ -62,77 +62,53 @@ public class PlayerHandler : MonoBehaviour
 
     private void Update()
     {
-        //Hurt your self
-        if (Input.GetKeyDown(KeyCode.Backspace))
+        if (Input.anyKey && itemExists) //Para eliminar estes checks todos em frames onde nada está a ser pressionado
         {
-            hp.Hurt(5);
-            hud.UpdateHudValues();
-            return;
-        }
-
-        if (Input.anyKey && itemExists) //Para eliminar estes checks todos em frames onde nada está a ser pressionado e todos os frames em que não temos items
-        {
-            //Item use when pressing L
-            if (Input.GetKeyDown(KeyCode.L))
+            //Hurt your self
+            if (Input.GetKeyDown(KeyCode.Backspace))
             {
-                switch (itemInventory[0, arrayCounter])
-                {
-                    case 1: //código da função do item 1
+                hp.Hurt(5);
+                return;
+            }
 
-                        energy.Restore(300);
-                        hud.UpdateHudValues();
-                        break;
-                    case 2: //código da função do item 2
-                        break;
+            if (Input.anyKey && itemExists) //Para eliminar estes checks todos em frames onde nada está a ser pressionado e todos os frames em que não temos items
+            {
+                //Item use when pressing L
+                if (Input.GetKeyDown(KeyCode.L))
+                {
+                    switch (itemInventory[0, arrayCounter])
+                    {
+                        case 1: //código da função do item 1
+
+                            energy.Restore(300);
+                            break;
+                        case 2: //código da função do item 2
+                            break;
+                    }
+
+                    RemoveFromInventory(arrayCounter);
+                    return;
                 }
-                //Remove 1 from the quantity of the selected item. If the quantity is now 0, remove the item altogether from the array
-                itemInventory[1, arrayCounter]--;
-                if (itemInventory[1, arrayCounter] == 0)
+
+                //Scroll the item selection wheel up
+                if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
                     if (arrayCounter == itemInventory.GetLength(1) - 1)
-                    {
-                        itemInventory = ResizeArray(itemInventory, itemInventory.GetLength(1) - 1);
-                        arrayCounter--;
-                    }
+                        arrayCounter = 0;
                     else
-                    {
-                        for(int i = arrayCounter; i < itemInventory.GetLength(1) - 1; i++)
-                        {
-                            itemInventory[0, i] = itemInventory[0, i + 1];
-                            itemInventory[1, i] = itemInventory[1, i + 1];
-                            itemInventory = ResizeArray(itemInventory, itemInventory.GetLength(1) - 1);
-                        }
-                    }
-                    if (itemInventory.GetLength(1) == 0)
-                    {
-                        itemExists = false;
-                    }
+                        arrayCounter++;
+                    return;
                 }
-                return;
-            }
 
-            //Scroll the item selection wheel up
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                if (arrayCounter == itemInventory.GetLength(1) - 1)
-                    arrayCounter = 0;
-                else
-                    arrayCounter++;
-
-                hud.ChangeItemImage(itemInventory[0, arrayCounter], arrayCounter);
-                return;
-            }
-
-            //Scroll the item selection wheel down
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                if (arrayCounter == 0)
-                    arrayCounter = itemInventory.GetLength(1) - 1;
-                else
-                    arrayCounter--;
-
-                hud.ChangeItemImage(itemInventory[0, arrayCounter], arrayCounter);
-                return;
+                //Scroll the item selection wheel down
+                if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    if (arrayCounter == 0)
+                        arrayCounter = itemInventory.GetLength(1) - 1;
+                    else
+                        arrayCounter--;
+                    return;
+                }
             }
         }
     }
@@ -151,13 +127,38 @@ public class PlayerHandler : MonoBehaviour
                 return;
             }
         }
-        
+
         //If not resize the array to include the new id and the assigned quantity
         itemInventory = ResizeArray(itemInventory, itemInventory.GetLength(1) + 1);
         itemInventory[0, itemInventory.GetLength(1) - 1] = items.id;
         itemInventory[1, itemInventory.GetLength(1) - 1] = items.quantity;
+    }
 
-        hud.ChangeItemImage(itemInventory[0, arrayCounter], arrayCounter);
+    public void RemoveFromInventory(int n)
+    {
+        itemInventory[1, n]--;
+        if (itemInventory[1, n] == 0)
+        {
+            if (arrayCounter == itemInventory.GetLength(1) - 1)
+            {
+                itemInventory = ResizeArray(itemInventory, itemInventory.GetLength(1) - 1);
+                arrayCounter--;
+            }
+            else
+            {
+                for (int i = arrayCounter; i < itemInventory.GetLength(1) - 1; i++)
+                {
+                    itemInventory[0, i] = itemInventory[0, i + 1];
+                    itemInventory[1, i] = itemInventory[1, i + 1];
+                    itemInventory = ResizeArray(itemInventory, itemInventory.GetLength(1) - 1);
+                }
+            }
+            if (itemInventory.GetLength(1) == 0)
+            {
+                itemExists = false;
+                arrayCounter = 0;
+            }
+        }
     }
 
     //Resize the inventory array. A new row number isn't necessary since there will always be 2 rows.
@@ -186,6 +187,20 @@ public class PlayerHandler : MonoBehaviour
         }
         return newArray;
     }
+
+    public int GetCurrentItemId()
+    {
+
+        try
+        {
+            return itemInventory[0, arrayCounter];
+        }
+        catch (System.Exception ignored)
+        {
+            return 0;
+        }
+    }
+
     #region 
     //Ignore this
     public int GetMaxHealth()

@@ -6,15 +6,17 @@ public class HealthBarManager : MonoBehaviour
 {
     HealthSystem hp;
 
+    public Transform hpSize;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        hp = GetComponent<Enemy>().GetHealthSystem();
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.localScale = new Vector3(1, 0.03f, 0);
+        hpSize.localScale = new Vector3(hp.FormatHealth() / 2, 0.03f, 0);
     }
 }

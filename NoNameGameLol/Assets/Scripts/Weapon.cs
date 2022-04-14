@@ -84,11 +84,11 @@ public class Weapon : MonoBehaviour
         //Create the actual projectile
         ProjectileMovement pm = Instantiate(projectile, transform.position, transform.rotation).GetComponent<ProjectileMovement>(); ;
         pm.dir = flipX == 1 ? transform.right : -transform.right;
+        pm.Damage = damage;
 
         weaponManager.Recoil = 0;
 
         //Remove energy
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHandler>().energy.Use(energyConsume);
-        GameObject.FindWithTag("HUD").GetComponent<HudController>().UpdateHudValues();
     }
 }

@@ -1192,7 +1192,6 @@ GameObject:
   m_Component:
   - component: {fileID: 770128751}
   - component: {fileID: 770128752}
-  - component: {fileID: 770128753}
   m_Layer: 0
   m_Name: healthbar
   m_TagString: Untagged
@@ -1265,18 +1264,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &770128753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 770128750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 040a22d28d69d1843bb869c8e19f6b74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &772935782 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6772120398544398614, guid: 2fa64a58ebc0ce64381056e26106da08, type: 3}
@@ -2414,6 +2401,7 @@ GameObject:
   - component: {fileID: 2098154325}
   - component: {fileID: 2098154324}
   - component: {fileID: 2098154323}
+  - component: {fileID: 2098154331}
   - component: {fileID: 2098154326}
   - component: {fileID: 2098154328}
   - component: {fileID: 2098154327}
@@ -2568,7 +2556,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 5
 --- !u!95 &2098154329
 Animator:
   serializedVersion: 3
@@ -2638,8 +2626,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.011299133
-        value: 0.031845093
+        time: 0
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -2648,7 +2636,7 @@ LineRenderer:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0
+        value: 0.012817383
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -2695,6 +2683,19 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &2098154331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098154322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 040a22d28d69d1843bb869c8e19f6b74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpSize: {fileID: 770128751}
 --- !u!1 &2105388735
 GameObject:
   m_ObjectHideFlags: 0

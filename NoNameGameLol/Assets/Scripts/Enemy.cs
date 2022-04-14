@@ -33,15 +33,26 @@ public class Enemy : MonoBehaviour
         Instantiate(projectile, transform.position, Quaternion.Euler(0, 0, angle));
     }
 
-    private void Start()
+    private void Update()
     {
-        //InvokeRepeating("FireProjectileToPlayer", 0f, 2f);
+
+        if (hp.Hp <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
 
         if (other.gameObject.layer == 8)
+        {
             hp.Hurt(other.gameObject.GetComponent<ProjectileMovement>().Damage);
+        }
+    }
+
+    public HealthSystem GetHealthSystem()
+    {
+        return hp;
     }
 }

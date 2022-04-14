@@ -40,6 +40,13 @@ public class HealthSystem
         }
     }
 
+    public float FormatHealth()
+    {
+        float per = (Mathf.Abs(maxHealth - currentHealth)) / (float)maxHealth;
+
+        return 1 - per;
+    }
+
     /* Additional function just in case we ever want to implement changing the max health by a certain value
      * changeAmount will be positive if the max health is increased and negative if it's decreased: That will be handled before the function is called
      * ChangeMaxHealth is called every time an effect that changes the max health is applied

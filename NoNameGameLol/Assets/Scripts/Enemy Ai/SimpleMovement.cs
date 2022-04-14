@@ -23,8 +23,6 @@ public class SimpleMovement : MonoBehaviour
 
     Vector3 target;
 
-    int timer = 0;
-
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -64,13 +62,13 @@ public class SimpleMovement : MonoBehaviour
                 Invoke("SetTarget", 1.85f / 2);
 
                 //Se há paredes no caminho continua
-                RaycastHit2D raycast = Physics2D.Raycast(transform.position, target - transform.position, radius);
+                RaycastHit2D raycast = Physics2D.Raycast(transform.position, target - transform.position, enemy.GetDistanceFromObject(player));
 
                 if (raycast.collider != null && raycast.collider.gameObject.tag != "Player")
                     return;
 
                 animator.SetBool("isCharging", true);
-                Vector3[] pos = { target, transform.position };
+                Vector3[] pos = { transform.position, (transform.position + -((transform.position - target).normalized) * radius) };
                 lr.SetPositions(pos);
 
                 spriteRenderer.flipX = (target - transform.position).x < 0;

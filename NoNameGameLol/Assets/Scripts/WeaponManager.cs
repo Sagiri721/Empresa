@@ -102,8 +102,6 @@ public class WeaponManager : MonoBehaviour
             GetComponent<Movement>().ChangeWeapon(weaponInventory[0]);
 
             currentWeapon = 0;
-
-            GameObject.FindWithTag("HUD").GetComponent<HudController>().UpdateWeaponUI();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
@@ -113,8 +111,6 @@ public class WeaponManager : MonoBehaviour
             GetComponent<Movement>().ChangeWeapon(weaponInventory[1]);
 
             currentWeapon = 1;
-
-            GameObject.FindWithTag("HUD").GetComponent<HudController>().UpdateWeaponUI();
         }
 
         int inv = GetComponent<SpriteRenderer>().flipX ? -1 : 1;
