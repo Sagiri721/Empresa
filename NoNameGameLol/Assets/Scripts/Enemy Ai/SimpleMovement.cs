@@ -68,7 +68,7 @@ public class SimpleMovement : MonoBehaviour
                     return;
 
                 animator.SetBool("isCharging", true);
-                Vector3[] pos = { transform.position, (transform.position + -((transform.position - target).normalized) * radius) };
+                Vector3[] pos = { transform.position, target };
                 lr.SetPositions(pos);
 
                 spriteRenderer.flipX = (target - transform.position).x < 0;

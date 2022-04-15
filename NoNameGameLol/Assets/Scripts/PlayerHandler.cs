@@ -78,11 +78,19 @@ public class PlayerHandler : MonoBehaviour
                 {
                     switch (itemInventory[0, arrayCounter])
                     {
-                        case 1: //código da função do item 1
+                        case 1: //código da função do item 1 (pilha)
 
-                            energy.Restore(300);
+                            //Restora energia se nenhuma for desperdiçada
+                            if (!(energy.Energy + 300 > energy.maxEnergy))
+                                energy.Restore(300);
+                            else
+                                return;
                             break;
-                        case 2: //código da função do item 2
+
+                        case 2: //código da função do item 2 (processador)
+                            Movement m = GetComponent<Movement>();
+                            m.spd = 2 * m.spd;
+                            m.Invoke("SpeedDecrease", 5);
                             break;
                     }
 
@@ -195,7 +203,7 @@ public class PlayerHandler : MonoBehaviour
         {
             return itemInventory[0, arrayCounter];
         }
-        catch (System.Exception ignored)
+        catch (System.Exception)
         {
             return 0;
         }

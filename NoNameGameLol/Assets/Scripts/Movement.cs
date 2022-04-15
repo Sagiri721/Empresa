@@ -146,4 +146,10 @@ public class Movement : MonoBehaviour
     {
         rigidbody_.AddForce(-angle * strength * 3);
     }
+
+    public void SpeedDecrease()
+    {
+
+        spd = spd / 2;
+    }
 }

@@ -17,6 +17,8 @@ public class Weapon : MonoBehaviour
     //The projectile if fires
     public GameObject projectile;
 
+    private PlayerHandler ph;
+
     //Can it fire projectiles?
     public bool canShoot;
 
@@ -36,6 +38,8 @@ public class Weapon : MonoBehaviour
         animator = GetComponent<Animator>();
         movement = GameObject.FindWithTag("Player").GetComponent<Movement>();
         weaponManager = GameObject.FindWithTag("Player").GetComponent<WeaponManager>();
+
+        ph = GameObject.FindWithTag("Player").GetComponent<PlayerHandler>();
     }
 
     // Update is called once per frame
@@ -43,7 +47,8 @@ public class Weapon : MonoBehaviour
     {
 
         if (Input.GetKeyDown(KeyCode.J) && canShoot && movement.IsGrounded &&
-        weaponManager.Recoil >= weaponManager.maxRecoil && WeaponManager.GetCurrentWeapon().GetComponent<Weapon>() == this)
+        weaponManager.Recoil >= weaponManager.maxRecoil && WeaponManager.GetCurrentWeapon().GetComponent<Weapon>() == this &&
+        ph.GetCurrentEnergy() >= energyConsume)
         {
             FireProjectile();
         }
