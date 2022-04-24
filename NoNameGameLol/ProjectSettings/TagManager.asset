@@ -9,6 +9,7 @@ TagManager:
   - Projectiles
   - Rotatable
   - HUD
+  - Spike
   layers:
   - Default
   - TransparentFX

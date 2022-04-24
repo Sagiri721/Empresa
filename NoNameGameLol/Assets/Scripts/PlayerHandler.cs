@@ -29,6 +29,9 @@ public class PlayerHandler : MonoBehaviour
 
     public int ArrayCounter { get { return arrayCounter; } }
 
+    //Global damage that spikes give to players
+    public int spikeDamage = 10;
+
     //Matriz placeholder de 2 linhas e colunas ilimitadas que serve como inventário de item.
     private int[,] itemInventory = new int[2, 0];
 
@@ -56,10 +59,14 @@ public class PlayerHandler : MonoBehaviour
                 hp.Hurt(other.gameObject.GetComponent<ProjectileMovement>().Damage);
 
                 break;
+            case "Spike":
+                GetComponent<Movement>().Knockback(100, other.gameObject.transform.rotation.z == 1 ? Vector2.up : Vector2.down);
+                hp.Hurt(spikeDamage);
+
+                break;
         }
 
     }
-
     private void Update()
     {
         if (Input.anyKey && itemExists) //Para eliminar estes checks todos em frames onde nada está a ser pressionado
