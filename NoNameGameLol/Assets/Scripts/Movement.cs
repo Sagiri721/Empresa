@@ -18,6 +18,12 @@ public class Movement : MonoBehaviour
     //The movement speed and jump power
     public float spd = 5f, jumpPow = 100;
 
+    //The much we multiply the gravity when player is falling
+    public float fallMultiplier = 2.5f;
+
+    //The multiplier of the jump power
+    public float jumpModifier = 2f;
+
     [HideInInspector]
     public float normalSpd;
 
@@ -98,7 +104,17 @@ public class Movement : MonoBehaviour
         //Check for jump
         if (Input.GetKeyDown("space") && isGrounded)
         {
-            rigidbody_.AddForce(Vector2.up * jumpPow);
+            rigidbody_.velocity = Vector2.up * jumpPow;
+        }
+
+        //If we are falling
+        if (rigidbody_.velocity.y < 0)
+        {
+            rigidbody_.velocity += Vector2.up * (fallMultiplier - 1) * Physics.gravity.y * Time.deltaTime;
+        }
+        else if (rigidbody_.velocity.y > 0 && !Input.GetKey("space"))
+        { //Going up
+            rigidbody_.velocity += Vector2.up * (jumpModifier - 1) * Physics.gravity.y * Time.deltaTime;
         }
 
         /*
