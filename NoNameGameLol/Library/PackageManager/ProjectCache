@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637855304509158242
-    m_Hash: 3698904590
+      ticks: 637864769820000000
+    m_Hash: 1543898058
   m_LockFileStatus:
     m_FilePath: D:/TIAGO/game/project/NoNameGameLol/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637855304509168289
-    m_Hash: 3203948965
+      ticks: 637864769820000000
+    m_Hash: 2888801861
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:

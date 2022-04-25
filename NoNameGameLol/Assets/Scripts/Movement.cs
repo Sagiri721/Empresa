@@ -19,7 +19,7 @@ public class Movement : MonoBehaviour
     public float spd = 5f, jumpPow = 100;
 
     //The much we multiply the gravity when player is falling
-    public float fallMultiplier = 2.5f;
+    public float fallMultiplier = 1.5f;
 
     //The multiplier of the jump power
     public float jumpModifier = 2f;
