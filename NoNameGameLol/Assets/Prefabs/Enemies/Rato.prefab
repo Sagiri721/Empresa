@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 5
-  maxHealthPoints: 100
+  maxHealthPoints: 50
   projectile: {fileID: 2822267286681239581, guid: 2eaba5020abb01f4e9bae5a33c087002, type: 3}
 --- !u!114 &6552946771508740347
 MonoBehaviour:

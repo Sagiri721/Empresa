@@ -50,6 +50,8 @@ public class WeaponManager : MonoBehaviour
         }
     }
 
+    
+
     public static bool IsCurrentWeaponRotatable()
     {
         return weaponInventory[currentWeapon].tag == "Rotatable";

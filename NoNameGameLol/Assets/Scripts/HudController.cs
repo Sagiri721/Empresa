@@ -29,6 +29,8 @@ public class HudController : MonoBehaviour
     //Reference to the players weapon inventory and such
     private WeaponManager weaponManager;
 
+    private Text Deaths;
+
     void Start()
     {
         //Get values for variables
@@ -55,6 +57,8 @@ public class HudController : MonoBehaviour
 
         hp.GetComponent<Image>().color = Color.green;
         mp.GetComponent<Image>().color = Color.blue;
+
+        Deaths = GameObject.Find("DeathCounter").GetComponent<Text>();
     }
     private void LateUpdate()
     {
@@ -98,6 +102,8 @@ public class HudController : MonoBehaviour
         //Weapon indicator
         slotIndicator.text = "Slot " + (meters.ArrayCounter + 1);
         itemImage.sprite = itemsImages[meters.GetCurrentItemId()];
+
+        Deaths.text = "Deaths: " + meters.DeathCounter;
     }
 
     private void SetImage(int num)

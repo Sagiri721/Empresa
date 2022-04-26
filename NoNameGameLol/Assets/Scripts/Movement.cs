@@ -161,7 +161,10 @@ public class Movement : MonoBehaviour
 
     public void Knockback(float strength, Vector3 angle)
     {
-        rigidbody_.AddForce(-angle * strength * 3);
+        if(GetComponent<PlayerHandler>().hp.Hp > 1)
+        {
+            rigidbody_.AddForce(-angle * strength * 3);
+        }
     }
 
     public void SpeedDecrease()

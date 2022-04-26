@@ -38,6 +38,8 @@ public class PlayerHandler : MonoBehaviour
     //Matriz placeholder de 2 linhas e colunas ilimitadas que serve como inventário de item.
     private int[,] itemInventory = new int[2, 0];
 
+    public int DeathCounter = 0;
+
     private void Awake()
     {
         hp = new HealthSystem(maxHealthPoints);
@@ -51,31 +53,40 @@ public class PlayerHandler : MonoBehaviour
         respawnPos = transform.position;
     }
 
+
     private void OnCollisionEnter2D(Collision2D other)
     {
-        switch (other.gameObject.tag)
+        if(hp.Hp > 1)
         {
-            case "Enemy":
-                hp.Hurt(other.gameObject.GetComponent<Enemy>().Damage);
+            switch (other.gameObject.tag)
+            {
+                case "Enemy":
+                    hp.Hurt(other.gameObject.GetComponent<Enemy>().Damage);
 
-                break;
-            case "Projectiles":
-                hp.Hurt(other.gameObject.GetComponent<ProjectileMovement>().Damage);
+                    break;
+                case "Projectiles":
+                    hp.Hurt(other.gameObject.GetComponent<ProjectileMovement>().Damage);
 
-                break;
-            case "Spike":
-                GetComponent<Movement>().Knockback(100, other.gameObject.transform.rotation.z == 1 ? Vector2.up : Vector2.down);
-                hp.Hurt(spikeDamage);
+                    break;
+                case "Spike":
+                    GetComponent<Movement>().Knockback(100, other.gameObject.transform.rotation.z == 1 ? Vector2.up : Vector2.down);
+                    hp.Hurt(spikeDamage);
 
-                break;
+                    break;
+            }
         }
+        
 
     }
 
     public void Respawn()
     {
-
+        GetComponent<Movement>().enabled = true;
         transform.position = respawnPos;
+        GetComponent<Animator>().SetBool("isDead", false);
+        hp.Hp = hp.maxHealth;
+        WeaponManager.GetCurrentWeapon().SetActive(true);
+        DeathCounter++;
     }
 
     private void Update()
@@ -84,10 +95,11 @@ public class PlayerHandler : MonoBehaviour
         if (hp.Hp <= 0)
         {
             //Animação de morrer
-
-            Invoke("Respawn", 0);
-
-            hp.Hp = hp.maxHealth;
+            GetComponent<Movement>().enabled = false;
+            Invoke("Respawn", 1.5f);
+            WeaponManager.GetCurrentWeapon().SetActive(false);
+            GetComponent<Animator>().SetBool("isDead", true);
+            hp.Hp = 1;
         }
 
         if (Input.anyKey) //Para eliminar estes checks todos em frames onde nada está a ser pressionado

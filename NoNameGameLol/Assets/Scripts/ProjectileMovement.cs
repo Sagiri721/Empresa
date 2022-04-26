@@ -26,6 +26,10 @@ public class ProjectileMovement : MonoBehaviour
     //The direction in with it moves
     public Vector3 dir = Vector3.zero;
 
+    [SerializeField]
+    public GameObject Exprosion;
+    private GameObject O;
+
     public int Damage { get { return damage; } set { damage = value; } }
 
     private void Start()
@@ -36,8 +40,16 @@ public class ProjectileMovement : MonoBehaviour
         //Ver se temos de trocar sprites
         if (sprites != null)
         {
-            GetComponent<SpriteRenderer>().sprite = sprites[currentSprite];
-            currentSprite++;
+            if (currentSprite <= sprites.Length)
+            {
+                GetComponent<SpriteRenderer>().sprite = sprites[currentSprite];
+                currentSprite++;
+            }
+            else
+            {
+                currentSprite = 0;
+            }
+            
         }
     }
 
@@ -46,7 +58,8 @@ public class ProjectileMovement : MonoBehaviour
     {
 
         //Just go forward lolz
-        transform.Translate(dir * Time.deltaTime * speed, Space.World);
+        if (GetComponent<SpriteRenderer>().enabled)
+            transform.Translate(dir * Time.deltaTime * speed, Space.World);
 
         if (hasTrail)
         {
@@ -61,8 +74,21 @@ public class ProjectileMovement : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.tag.Equals("Player"))
-            other.gameObject.GetComponent<Movement>().Knockback(knockbackPow, -transform.position);
+        if (GetComponent<SpriteRenderer>().enabled)
+        {
+            if (other.gameObject.tag.Equals("Player"))
+                other.gameObject.GetComponent<Movement>().Knockback(knockbackPow, -transform.position);
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<LineRenderer>().enabled = false;
+            O = Instantiate(Exprosion, transform.position, transform.rotation);
+            Invoke("ripzaoExprosion", 0.5f);
+        }
+    }
+
+    public void ripzaoExprosion()
+    {
+        Destroy(O.gameObject);
         Destroy(gameObject);
+        Debug.Log("henlo");
     }
 }
