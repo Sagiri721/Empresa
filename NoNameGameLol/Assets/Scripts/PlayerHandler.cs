@@ -87,7 +87,7 @@ public class PlayerHandler : MonoBehaviour
 
     private void Update()
     {
-        if (Input.anyKey && itemExists) //Para eliminar estes checks todos em frames onde nada está a ser pressionado
+        if (Input.anyKey) //Para eliminar estes checks todos em frames onde nada está a ser pressionado
         {
             //Hurt your self
             if (Input.GetKeyDown(KeyCode.Backspace))
@@ -96,7 +96,7 @@ public class PlayerHandler : MonoBehaviour
                 return;
             }
 
-            if (Input.anyKey && itemExists) //Para eliminar estes checks todos em frames onde nada está a ser pressionado e todos os frames em que não temos items
+            if (itemExists) //Para eliminar estes checks todos os frames em que não temos items
             {
                 //Item use when pressing L
                 if (Input.GetKeyDown(KeyCode.L))
