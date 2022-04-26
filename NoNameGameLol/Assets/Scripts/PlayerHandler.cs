@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class PlayerHandler : MonoBehaviour
 {
+    //Posição onde o player respawn quando morre
+    Vector3 respawnPos = new Vector2.zero;
+
     //Pontos máximos de hp que se pode ter
     [SerializeField]
     private int maxHealthPoints;
 
     //Referencia à classe de operações com hp
-    HealthSystem hp;
+    public HealthSystem hp;
 
     //Referencia à classe de HUD para se poder fazer update à HUD
     HudController hud;
@@ -45,6 +48,7 @@ public class PlayerHandler : MonoBehaviour
     {
 
         hud = GameObject.Find("RobotFace").GetComponent<HudController>();
+        respawnPos = transform.position;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -66,7 +70,21 @@ public class PlayerHandler : MonoBehaviour
                 break;
         }
 
+        if(hp.currentHealth <= 0)
+        {
+            //Animação de morrer
+
+            Invoke("Respawn", 2f);
+        }
+
     }
+
+    public void Respawn()
+    {
+
+        transform.position = respawnPos;
+    }
+
     private void Update()
     {
         if (Input.anyKey && itemExists) //Para eliminar estes checks todos em frames onde nada está a ser pressionado

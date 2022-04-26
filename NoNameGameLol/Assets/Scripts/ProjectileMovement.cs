@@ -17,6 +17,12 @@ public class ProjectileMovement : MonoBehaviour
     LineRenderer lineRenderer;
     private float trailSize = 0;
 
+    //Unknown
+    //Lista de sprites
+    public Sprite[] sprites = null;
+    //Sprite atual
+    public static int currentSprite = 0;
+
     //The direction in with it moves
     public Vector3 dir = Vector3.zero;
 
@@ -26,6 +32,13 @@ public class ProjectileMovement : MonoBehaviour
     {
         if (hasTrail)
             lineRenderer = GetComponent<LineRenderer>();
+
+        //Ver se temos de trocar sprites
+        if (sprites != null)
+        {
+            GetComponent<SpriteRenderer>().sprite = sprites[currentSprite];
+            currentSprite++;
+        }
     }
 
     // Update is called once per frame
