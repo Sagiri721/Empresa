@@ -12,8 +12,6 @@ public class SimpleMovement : MonoBehaviour
 
     public float radius = 5;
 
-    int size = 0;
-
     SpriteRenderer spriteRenderer;
     BoxCollider2D boxCollider;
 
@@ -65,15 +63,11 @@ public class SimpleMovement : MonoBehaviour
 
                 //Se há paredes no caminho continua
                 RaycastHit2D raycast = Physics2D.Raycast(transform.position, target - transform.position, enemy.GetDistanceFromObject(player));
-                size = enemy.GetDistanceFromObject(player);
 
                 if (raycast.collider != null && raycast.collider.gameObject.tag != "Player")
                     return;
 
                 animator.SetBool("isCharging", true);
-                Vector3[] pos = { transform.position, target };
-                lr.SetPositions(pos);
-
                 spriteRenderer.flipX = (target - transform.position).x < 0;
 
                 Invoke("ResetBool", 1.85f);
@@ -87,9 +81,9 @@ public class SimpleMovement : MonoBehaviour
         animator.SetBool("isCharging", false);
         lr.enabled = true;
 
-        RaycastHit2D raycast = Physics2D.Raycast(transform.position, target - transform.position, size);
+        RaycastHit2D raycast = Physics2D.Raycast(transform.position, target - transform.position, 200);
 
-        if(raycast.collider.gameObject.tag == "Player")
+        if (raycast.collider != null && raycast.collider.gameObject.tag == "Player")
         {
             raycast.collider.gameObject.GetComponent<PlayerHandler>().hp.Hurt(50);
         }
@@ -106,6 +100,8 @@ public class SimpleMovement : MonoBehaviour
     private void SetTarget()
     {
         target = player.transform.position;
+        Vector3[] pos = { transform.position, transform.position + (target - transform.position).normalized * 200 };
+        lr.SetPositions(pos);
     }
 
 

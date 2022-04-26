@@ -49,6 +49,8 @@
      <Compile Include="Assets\Scripts\ProjectileMovement.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\HudController.cs" />
+     <Compile Include="Assets\Scripts\SlowDown.cs" />
+     <Compile Include="Assets\Scripts\Spring.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

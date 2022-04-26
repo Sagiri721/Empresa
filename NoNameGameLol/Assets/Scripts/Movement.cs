@@ -25,7 +25,7 @@ public class Movement : MonoBehaviour
     public float jumpModifier = 2f;
 
     [HideInInspector]
-    public float normalSpd;
+    public float normalSpd, normalJump;
 
     //The horizontal collision hit info
     RaycastHit2D hit;
@@ -50,6 +50,7 @@ public class Movement : MonoBehaviour
         weaponPos = weapon.GetComponent<Transform>();
 
         normalSpd = spd;
+        normalJump = jumpPow;
 
         AnimationReset();
     }
@@ -167,5 +168,27 @@ public class Movement : MonoBehaviour
     {
 
         spd = spd / 2;
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+
+        if (other.gameObject.tag == "Slow")
+        {
+
+            spd = 1f;
+            jumpPow = 4;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+
+        if (other.gameObject.tag == "Slow")
+        {
+
+            spd = normalSpd;
+            jumpPow = normalJump;
+        }
     }
 }
