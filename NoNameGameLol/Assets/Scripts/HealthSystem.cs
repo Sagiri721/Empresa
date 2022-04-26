@@ -13,7 +13,7 @@ public class HealthSystem
         currentHealth = maxHealth;
     }
 
-    public int Hp { get { return currentHealth; } }
+    public int Hp { get { return currentHealth; } set { currentHealth = value; } }
 
     // Hurt is called every time a collision with an object that deals damage occurs.
     public void Hurt(int damageReceived)

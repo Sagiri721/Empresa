@@ -10,6 +10,7 @@ TagManager:
   - Rotatable
   - HUD
   - Spike
+  - Slow
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - FriendlyFire
   - EnemyFire
   - Background
-  - 
+  - Enemy
   - 
   - 
   - 

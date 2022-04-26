@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6552946771508740343}
   - component: {fileID: 6552946771508740345}
   - component: {fileID: 6552946771508740346}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rato
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -250,7 +250,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
+        value: 0.018875122
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -259,7 +259,7 @@ LineRenderer:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0.012817383
+        value: 0.031692505
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -318,7 +318,7 @@ GameObject:
   - component: {fileID: 6552946772052944351}
   - component: {fileID: 6552946772052944350}
   - component: {fileID: 6552946772052944160}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: collisao
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -413,7 +413,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6552946772840952015}
   - component: {fileID: 6552946772840952016}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: healthbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
