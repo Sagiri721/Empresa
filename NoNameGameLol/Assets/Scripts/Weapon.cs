@@ -29,6 +29,9 @@ public class Weapon : MonoBehaviour
 
     public float recoilSpd = 0.2f;
 
+    private AudioSource audiosource;
+    public AudioClip audioCharge, audioShoot;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +43,8 @@ public class Weapon : MonoBehaviour
         weaponManager = GameObject.FindWithTag("Player").GetComponent<WeaponManager>();
 
         ph = GameObject.FindWithTag("Player").GetComponent<PlayerHandler>();
+
+        audiosource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -50,6 +55,7 @@ public class Weapon : MonoBehaviour
         weaponManager.Recoil >= weaponManager.maxRecoil && WeaponManager.GetCurrentWeapon().GetComponent<Weapon>() == this &&
         ph.GetCurrentEnergy() >= energyConsume)
         {
+            
             FireProjectile();
         }
     }
@@ -57,6 +63,10 @@ public class Weapon : MonoBehaviour
     public void FireProjectile()
     {
         //play the shoot animation
+        if (!audiosource.isPlaying)
+        {
+            audiosource.PlayOneShot(audioCharge);
+        }
         animator.SetBool("isShooting", true);
         movement.spd /= 4;
 
@@ -66,6 +76,10 @@ public class Weapon : MonoBehaviour
 
     public void GunFire()
     {
+        if (!audiosource.isPlaying)
+        {
+            audiosource.PlayOneShot(audioShoot);
+        }
         if (weaponManager.Recoil < weaponManager.maxRecoil)
         {
             movement.spd = movement.normalSpd;
