@@ -40,7 +40,7 @@ public class ProjectileMovement : MonoBehaviour
         //Ver se temos de trocar sprites
         if (sprites != null)
         {
-            if (currentSprite <= sprites.Length)
+            if (currentSprite < sprites.Length)
             {
                 GetComponent<SpriteRenderer>().sprite = sprites[currentSprite];
                 currentSprite++;
@@ -49,7 +49,7 @@ public class ProjectileMovement : MonoBehaviour
             {
                 currentSprite = 0;
             }
-            
+
         }
     }
 
@@ -89,6 +89,5 @@ public class ProjectileMovement : MonoBehaviour
     {
         Destroy(O.gameObject);
         Destroy(gameObject);
-        Debug.Log("henlo");
     }
 }

@@ -50,7 +50,7 @@ public class WeaponManager : MonoBehaviour
         }
     }
 
-    
+
 
     public static bool IsCurrentWeaponRotatable()
     {
@@ -101,7 +101,8 @@ public class WeaponManager : MonoBehaviour
             weaponInventory[currentWeapon].GetComponent<SpriteRenderer>().enabled = false;
             weaponInventory[0].GetComponent<SpriteRenderer>().enabled = true;
 
-            GetComponent<Movement>().ChangeWeapon(weaponInventory[0]);
+            if (currentWeapon != 0)
+                GetComponent<Movement>().ChangeWeapon(weaponInventory[0]);
 
             currentWeapon = 0;
         }
@@ -110,7 +111,8 @@ public class WeaponManager : MonoBehaviour
             weaponInventory[currentWeapon].GetComponent<SpriteRenderer>().enabled = false;
             weaponInventory[1].GetComponent<SpriteRenderer>().enabled = true;
 
-            GetComponent<Movement>().ChangeWeapon(weaponInventory[1]);
+            if (currentWeapon != 1)
+                GetComponent<Movement>().ChangeWeapon(weaponInventory[1]);
 
             currentWeapon = 1;
         }

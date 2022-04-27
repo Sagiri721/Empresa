@@ -33,6 +33,10 @@ public class Movement : MonoBehaviour
     //Is the player on ground?
     private bool isGrounded = true;
 
+    private AudioSource audioSource;
+    public AudioClip audioWalk, audioJump, audioLanding, audioChange, audioSlow;
+
+
     public bool IsGrounded { get { return isGrounded; } }
 
     void Start()
@@ -51,6 +55,8 @@ public class Movement : MonoBehaviour
 
         normalSpd = spd;
         normalJump = jumpPow;
+
+        audioSource = GetComponent<AudioSource>();
 
         AnimationReset();
     }
@@ -73,6 +79,10 @@ public class Movement : MonoBehaviour
         weaponPos = weapon.GetComponent<Transform>();
 
         weaponRenderer.flipX = spriteRenderer.flipX;
+        if (!audioSource.isPlaying)
+        {
+            audioSource.PlayOneShot(audioChange);
+        }
 
         AnimationReset();
     }
@@ -97,7 +107,20 @@ public class Movement : MonoBehaviour
         isGrounded = a.collider != null || b.collider != null || c.collider != null;
 
         if (hit.collider == null)
+        {
             rigidbody_.transform.Translate(movement.x * Time.deltaTime * spd, 0, 0);
+            if (!audioSource.isPlaying && axis != 0 && isGrounded)
+            {
+                audioSource.PlayOneShot(audioWalk);
+            }
+            if (axis == 0 || !isGrounded)
+            {
+                //audioSource.Stop();
+            }
+        }
+
+
+
     }
 
     private void Update()
@@ -105,6 +128,7 @@ public class Movement : MonoBehaviour
         //Check for jump
         if (Input.GetKeyDown("space") && isGrounded)
         {
+            audioSource.PlayOneShot(audioJump);
             rigidbody_.velocity = Vector2.up * jumpPow;
         }
 
@@ -112,6 +136,10 @@ public class Movement : MonoBehaviour
         if (rigidbody_.velocity.y < 0)
         {
             rigidbody_.velocity += Vector2.up * (fallMultiplier - 1) * Physics.gravity.y * Time.deltaTime;
+            if (IsGrounded && !audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(audioLanding);
+            }
         }
         else if (rigidbody_.velocity.y > 0 && !Input.GetKey("space"))
         { //Going up
@@ -161,7 +189,7 @@ public class Movement : MonoBehaviour
 
     public void Knockback(float strength, Vector3 angle)
     {
-        if(GetComponent<PlayerHandler>().hp.Hp > 1)
+        if (GetComponent<PlayerHandler>().hp.Hp > 1)
         {
             rigidbody_.AddForce(-angle * strength * 3);
         }
@@ -169,7 +197,6 @@ public class Movement : MonoBehaviour
 
     public void SpeedDecrease()
     {
-
         spd = spd / 2;
     }
 
@@ -178,9 +205,12 @@ public class Movement : MonoBehaviour
 
         if (other.gameObject.tag == "Slow")
         {
-
             spd = 1f;
             jumpPow = 4;
+            if (!audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(audioSlow);
+            }
         }
     }
 

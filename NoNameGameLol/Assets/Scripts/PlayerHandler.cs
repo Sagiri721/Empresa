@@ -40,6 +40,9 @@ public class PlayerHandler : MonoBehaviour
 
     public int DeathCounter = 0;
 
+    private AudioSource audioSource;
+    public AudioClip audioHurt, audioHeal, audioItemUse, audioDeath, audioChangeItem, audioItemGet;
+
     private void Awake()
     {
         hp = new HealthSystem(maxHealthPoints);
@@ -48,7 +51,7 @@ public class PlayerHandler : MonoBehaviour
 
     private void Start()
     {
-
+        audioSource = GetComponent<AudioSource>();
         hud = GameObject.Find("RobotFace").GetComponent<HudController>();
         respawnPos = transform.position;
     }
@@ -56,26 +59,29 @@ public class PlayerHandler : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if(hp.Hp > 1)
+        if (hp.Hp > 1)
         {
             switch (other.gameObject.tag)
             {
                 case "Enemy":
                     hp.Hurt(other.gameObject.GetComponent<Enemy>().Damage);
+                    audioSource.PlayOneShot(audioHurt);
 
                     break;
                 case "Projectiles":
                     hp.Hurt(other.gameObject.GetComponent<ProjectileMovement>().Damage);
+                    audioSource.PlayOneShot(audioHurt);
 
                     break;
                 case "Spike":
                     GetComponent<Movement>().Knockback(100, other.gameObject.transform.rotation.z == 1 ? Vector2.up : Vector2.down);
                     hp.Hurt(spikeDamage);
+                    audioSource.PlayOneShot(audioHurt);
 
                     break;
             }
         }
-        
+
 
     }
 
@@ -85,6 +91,8 @@ public class PlayerHandler : MonoBehaviour
         transform.position = respawnPos;
         GetComponent<Animator>().SetBool("isDead", false);
         hp.Hp = hp.maxHealth;
+
+        audioSource.PlayOneShot(audioHeal);
         WeaponManager.GetCurrentWeapon().SetActive(true);
         DeathCounter++;
     }
@@ -98,18 +106,14 @@ public class PlayerHandler : MonoBehaviour
             GetComponent<Movement>().enabled = false;
             Invoke("Respawn", 1.5f);
             WeaponManager.GetCurrentWeapon().SetActive(false);
+            audioSource.PlayOneShot(audioDeath);
+
             GetComponent<Animator>().SetBool("isDead", true);
             hp.Hp = 1;
         }
 
         if (Input.anyKey) //Para eliminar estes checks todos em frames onde nada está a ser pressionado
         {
-            //Hurt your self
-            if (Input.GetKeyDown(KeyCode.Backspace))
-            {
-                hp.Hurt(5);
-                return;
-            }
 
             if (itemExists) //Para eliminar estes checks todos os frames em que não temos items
             {
@@ -133,7 +137,7 @@ public class PlayerHandler : MonoBehaviour
                             m.Invoke("SpeedDecrease", 5);
                             break;
                     }
-
+                    audioSource.PlayOneShot(audioItemUse);
                     RemoveFromInventory(arrayCounter);
                     return;
                 }
@@ -144,7 +148,11 @@ public class PlayerHandler : MonoBehaviour
                     if (arrayCounter == itemInventory.GetLength(1) - 1)
                         arrayCounter = 0;
                     else
+                    {
                         arrayCounter++;
+                    }
+                    audioSource.PlayOneShot(audioChangeItem);
+
                     return;
                 }
 
@@ -154,7 +162,10 @@ public class PlayerHandler : MonoBehaviour
                     if (arrayCounter == 0)
                         arrayCounter = itemInventory.GetLength(1) - 1;
                     else
+                    {
                         arrayCounter--;
+                    }
+                    audioSource.PlayOneShot(audioChangeItem);
                     return;
                 }
             }
@@ -180,6 +191,8 @@ public class PlayerHandler : MonoBehaviour
         itemInventory = ResizeArray(itemInventory, itemInventory.GetLength(1) + 1);
         itemInventory[0, itemInventory.GetLength(1) - 1] = items.id;
         itemInventory[1, itemInventory.GetLength(1) - 1] = items.quantity;
+
+        audioSource.PlayOneShot(audioItemGet);
     }
 
     public void RemoveFromInventory(int n)
