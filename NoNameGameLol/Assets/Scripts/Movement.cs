@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
@@ -38,6 +39,8 @@ public class Movement : MonoBehaviour
 
 
     public bool IsGrounded { get { return isGrounded; } }
+
+    float mag = 5;
 
     void Start()
     {
@@ -79,7 +82,7 @@ public class Movement : MonoBehaviour
         weaponPos = weapon.GetComponent<Transform>();
 
         weaponRenderer.flipX = spriteRenderer.flipX;
-        
+
         {
             audioSource.PlayOneShot(audioChange);
         }
@@ -104,7 +107,14 @@ public class Movement : MonoBehaviour
         RaycastHit2D b = Physics2D.Raycast(new Vector2(transform.position.x + collider_.bounds.extents.x, transform.position.y), Vector2.down, collider_.bounds.extents.y + 0.1f);
         RaycastHit2D c = Physics2D.Raycast(transform.position, Vector2.down, collider_.bounds.extents.y + 0.1f);
 
-        isGrounded = a.collider != null || b.collider != null || c.collider != null;
+        if (a.collider != null || b.collider != null || c.collider != null)
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            Invoke("notGrounded", 0.1f);
+        }
 
         if (hit.collider == null)
         {
@@ -113,23 +123,37 @@ public class Movement : MonoBehaviour
             {
                 audioSource.PlayOneShot(audioWalk);
             }
-            if (axis == 0 || !isGrounded)
-            {
-                //audioSource.Stop();
-            }
         }
 
+    }
 
-
+    public void notGrounded()
+    {
+        isGrounded = false;
     }
 
     private void Update()
     {
-        //Check for jump
-        if (Input.GetKeyDown("space") && isGrounded)
+        if (isGrounded && mag < 2)
         {
-            audioSource.PlayOneShot(audioJump);
             rigidbody_.velocity = Vector2.up * jumpPow;
+            mag = 5;
+        }
+        else
+        {
+            //Check for jump
+            if (Input.GetKeyDown("space") && isGrounded)
+            {
+                audioSource.PlayOneShot(audioJump);
+                rigidbody_.velocity = Vector2.up * jumpPow;
+            }
+
+            if (Input.GetKeyDown("space") && !isGrounded)
+            {
+                RaycastHit2D aux = Physics2D.Raycast(transform.position, Vector2.down, 1f);
+                if (aux.collider != null)
+                    mag = (transform.position - aux.collider.gameObject.transform.position).magnitude;
+            }
         }
 
         //If we are falling
@@ -184,6 +208,11 @@ public class Movement : MonoBehaviour
         {
             spriteRenderer.flipX = axis < 0;
             weaponRenderer.flipX = axis < 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene("ExpoColgaia");
         }
     }
 
