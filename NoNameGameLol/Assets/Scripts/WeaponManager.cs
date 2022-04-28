@@ -90,6 +90,8 @@ public class WeaponManager : MonoBehaviour
     void Update()
     {
 
+        Debug.Log(currentWeapon);
+
         if (recoil < maxRecoil)
             recoil += GetCurrentWeapon().GetComponent<Weapon>().recoilSpd * Time.deltaTime;
 

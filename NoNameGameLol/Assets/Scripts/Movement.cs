@@ -66,8 +66,7 @@ public class Movement : MonoBehaviour
 
         AnimationReset();
 
-        ChangeWeapon(WeaponManager.GetCurrentWeapon());
-
+        UpdateWeaponRenderer();
     }
 
     private void AnimationReset()
@@ -134,6 +133,12 @@ public class Movement : MonoBehaviour
 
     }
 
+    public void UpdateWeaponRenderer()
+    {
+
+        WeaponManager.GetCurrentWeapon().GetComponent<SpriteRenderer>().enabled = true;
+    }
+
     public void notGrounded()
     {
         isGrounded = false;
@@ -141,6 +146,7 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
+
         if (isGrounded && mag < 2)
         {
             rigidbody_.velocity = Vector2.up * jumpPow;
@@ -234,6 +240,7 @@ public class Movement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G) && Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene("ExpoColgaia");
+            UpdateWeaponRenderer();
         }
     }
 
