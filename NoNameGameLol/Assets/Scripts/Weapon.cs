@@ -45,6 +45,7 @@ public class Weapon : MonoBehaviour
         ph = GameObject.FindWithTag("Player").GetComponent<PlayerHandler>();
 
         audiosource = GetComponent<AudioSource>();
+
     }
 
     // Update is called once per frame
@@ -55,7 +56,7 @@ public class Weapon : MonoBehaviour
         weaponManager.Recoil >= weaponManager.maxRecoil && WeaponManager.GetCurrentWeapon().GetComponent<Weapon>() == this &&
         ph.GetCurrentEnergy() >= energyConsume)
         {
-            
+
             FireProjectile();
         }
     }

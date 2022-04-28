@@ -37,6 +37,9 @@ public class Movement : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip audioWalk, audioJump, audioLanding, audioChange, audioSlow;
 
+    [SerializeField]
+    private float fallSpeedClampValue = 12;
+
 
     public bool IsGrounded { get { return isGrounded; } }
 
@@ -119,6 +122,7 @@ public class Movement : MonoBehaviour
         if (hit.collider == null)
         {
             rigidbody_.transform.Translate(movement.x * Time.deltaTime * spd, 0, 0);
+
             if (!audioSource.isPlaying && axis != 0 && isGrounded)
             {
                 audioSource.PlayOneShot(audioWalk);
@@ -157,7 +161,7 @@ public class Movement : MonoBehaviour
         }
 
         //If we are falling
-        if (rigidbody_.velocity.y < 0)
+        if (rigidbody_.velocity.y < 0 && rigidbody_.velocity.y < 2)
         {
             rigidbody_.velocity += Vector2.up * (fallMultiplier - 1) * Physics.gravity.y * Time.deltaTime;
             if (IsGrounded && !audioSource.isPlaying)
@@ -182,6 +186,20 @@ public class Movement : MonoBehaviour
 
         weaponAnimator.SetBool("isIdle", animator.GetBool("isIdle"));
         weaponAnimator.SetBool("isOnAir", animator.GetBool("isOnAir"));
+
+        ClampFallSpeed();
+    }
+
+    private void ClampFallSpeed()
+    {
+        if (rigidbody_.velocity.y > fallSpeedClampValue)
+        {
+            rigidbody_.velocity = new Vector2(rigidbody_.velocity.x, fallSpeedClampValue);
+        }
+        else if (rigidbody_.velocity.y < -fallSpeedClampValue)
+        {
+            rigidbody_.velocity = new Vector2(rigidbody_.velocity.x, -fallSpeedClampValue);
+        }
     }
 
     private void LateUpdate()

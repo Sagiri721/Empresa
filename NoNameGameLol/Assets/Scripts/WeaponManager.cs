@@ -93,64 +93,67 @@ public class WeaponManager : MonoBehaviour
         if (recoil < maxRecoil)
             recoil += GetCurrentWeapon().GetComponent<Weapon>().recoilSpd;
 
-        //Sistema de mudança de arma através de numeros
-        //Para automatizar
-        //If key 0/1/2/3/... is pressed change to the adequate weapon
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            weaponInventory[currentWeapon].GetComponent<SpriteRenderer>().enabled = false;
-            weaponInventory[0].GetComponent<SpriteRenderer>().enabled = true;
-
-            if (currentWeapon != 0)
-                GetComponent<Movement>().ChangeWeapon(weaponInventory[0]);
-
-            currentWeapon = 0;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            weaponInventory[currentWeapon].GetComponent<SpriteRenderer>().enabled = false;
-            weaponInventory[1].GetComponent<SpriteRenderer>().enabled = true;
-
-            if (currentWeapon != 1)
-                GetComponent<Movement>().ChangeWeapon(weaponInventory[1]);
-
-            currentWeapon = 1;
-        }
-
-        int inv = GetComponent<SpriteRenderer>().flipX ? -1 : 1;
-
-        //Sistema de rotação da arma
-        //Rotate the weapon given the input
-        if (GetCurrentWeapon().tag.Equals("Rotatable"))
+        if (!(weaponInventory[currentWeapon].tag == "Rotatable") || !weaponInventory[currentWeapon].GetComponent<Animator>().GetBool("isShooting"))
         {
 
-            float angle = weaponInventory[currentWeapon].transform.rotation.z;
-
-            if (inv == 1)
+            //Sistema de mudança de arma através de numeros
+            //Para automatizar
+            //If key 0/1/2/3/... is pressed change to the adequate weapon
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                if (Input.GetKey(KeyCode.I) && angle < 0.5f) //Rotate upwards
-                {
-                    weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, 1 * Time.deltaTime * rotSpeed), Space.Self);
-                }
-                else if (Input.GetKey(KeyCode.K) && angle > -0.5f) //Rotate downwards
-                {
-                    weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, -1 * Time.deltaTime * rotSpeed), Space.Self);
-                }
+                weaponInventory[currentWeapon].GetComponent<SpriteRenderer>().enabled = false;
+                weaponInventory[0].GetComponent<SpriteRenderer>().enabled = true;
+
+                if (currentWeapon != 0)
+                    GetComponent<Movement>().ChangeWeapon(weaponInventory[0]);
+
+                currentWeapon = 0;
             }
-            else
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                weaponInventory[currentWeapon].GetComponent<SpriteRenderer>().enabled = false;
+                weaponInventory[1].GetComponent<SpriteRenderer>().enabled = true;
+
+                if (currentWeapon != 1)
+                    GetComponent<Movement>().ChangeWeapon(weaponInventory[1]);
+
+                currentWeapon = 1;
+            }
+
+            int inv = GetComponent<SpriteRenderer>().flipX ? -1 : 1;
+
+            //Sistema de rotação da arma
+            //Rotate the weapon given the input
+            if (GetCurrentWeapon().tag.Equals("Rotatable"))
             {
 
-                if (Input.GetKey(KeyCode.I) && angle > -0.5f) //Rotate upwards
+                float angle = weaponInventory[currentWeapon].transform.rotation.z;
+                if (inv == 1)
                 {
-                    weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, -1 * Time.deltaTime * rotSpeed), Space.Self);
+                    if (Input.GetKey(KeyCode.I) && angle < 0.5f) //Rotate upwards
+                    {
+                        weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, 1 * Time.deltaTime * rotSpeed), Space.Self);
+                    }
+                    else if (Input.GetKey(KeyCode.K) && angle > -0.5f) //Rotate downwards
+                    {
+                        weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, -1 * Time.deltaTime * rotSpeed), Space.Self);
+                    }
                 }
-                else if (Input.GetKey(KeyCode.K) && angle < 0.5f) //Rotate downwards
+                else
                 {
-                    weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, 1 * Time.deltaTime * rotSpeed), Space.Self);
+
+                    if (Input.GetKey(KeyCode.I) && angle > -0.5f) //Rotate upwards
+                    {
+                        weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, -1 * Time.deltaTime * rotSpeed), Space.Self);
+                    }
+                    else if (Input.GetKey(KeyCode.K) && angle < 0.5f) //Rotate downwards
+                    {
+                        weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, 1 * Time.deltaTime * rotSpeed), Space.Self);
+                    }
                 }
             }
         }
+
+        #endregion
     }
-
-    #endregion
 }

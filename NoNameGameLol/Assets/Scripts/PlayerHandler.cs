@@ -90,6 +90,7 @@ public class PlayerHandler : MonoBehaviour
         GetComponent<Movement>().enabled = true;
         transform.position = respawnPos;
         GetComponent<Animator>().SetBool("isDead", false);
+        WeaponManager.GetCurrentWeapon().GetComponent<Animator>().SetBool("isDead", GetComponent<Animator>().GetBool("isDead"));
         hp.Hp = hp.maxHealth;
 
         audioSource.PlayOneShot(audioHeal);
@@ -106,16 +107,19 @@ public class PlayerHandler : MonoBehaviour
             hp.Hp = hp.maxHealth;
             audioSource.PlayOneShot(audioHeal);
         }
-        
+
         if (hp.Hp <= 0)
         {
             //Animação de morrer
             GetComponent<Movement>().enabled = false;
-            Invoke("Respawn", 1.5f);
+            Invoke("Respawn", 1.3f);
+
             WeaponManager.GetCurrentWeapon().SetActive(false);
+
             audioSource.PlayOneShot(audioDeath);
 
             GetComponent<Animator>().SetBool("isDead", true);
+            WeaponManager.GetCurrentWeapon().GetComponent<Animator>().SetBool("isDead", GetComponent<Animator>().GetBool("isDead"));
             hp.Hp = 1;
         }
 
