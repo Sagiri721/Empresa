@@ -65,6 +65,7 @@ public class HudController : MonoBehaviour
         recoil.offsetMax = new Vector2(weaponManager.Recoil, recoil.offsetMax.y);
 
         weaponIndicator.text = "Current weapon: " + weaponNames[weaponManager.CurrentWeapon];
+
         if (WeaponManager.GetCurrentWeapon().tag == "Rotatable")
             recoilIndicator.SetActive(true);
         else

@@ -91,7 +91,7 @@ public class WeaponManager : MonoBehaviour
     {
 
         if (recoil < maxRecoil)
-            recoil += GetCurrentWeapon().GetComponent<Weapon>().recoilSpd;
+            recoil += GetCurrentWeapon().GetComponent<Weapon>().recoilSpd * Time.deltaTime;
 
         if (!(weaponInventory[currentWeapon].tag == "Rotatable") || !weaponInventory[currentWeapon].GetComponent<Animator>().GetBool("isShooting"))
         {

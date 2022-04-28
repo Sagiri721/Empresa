@@ -139030,7 +139030,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6076905660491816694, guid: 985fa7152e39dd845a56ac1bea2433e4, type: 3}
       propertyPath: recoilSpd
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6076905660491816694, guid: 985fa7152e39dd845a56ac1bea2433e4, type: 3}
       propertyPath: audioShoot

@@ -65,6 +65,9 @@ public class Movement : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         AnimationReset();
+
+        ChangeWeapon(WeaponManager.GetCurrentWeapon());
+
     }
 
     private void AnimationReset()
