@@ -24,7 +24,7 @@ public class Spring : MonoBehaviour
             {
                 audioSource.Play();
             }
-            other.GetComponent<Movement>().Knockback(210, Vector3.down);
+            other.GetComponent<Movement>().Knockback(260, Vector3.down);
             animator.SetBool("isActive", true);
             Invoke("isnotactive", 0.05f);
         }
