@@ -19,15 +19,15 @@ public class WeaponManager : MonoBehaviour
 
     public bool CanSwap { get { return canSwap; } set { canSwap = value; } }
 
-    public int CurrentWeapon { get { return currentWeapon; } }
+    public static int CurrentWeapon { get { return currentWeapon; } }
 
     //The speed with wich you can rotate the weapon around
     public int rotSpeed = 1;
 
     public int maxRecoil = 135;
-    private float recoil = 135;
+    private static float recoil = 135;
 
-    public float Recoil { get { return recoil; } set { recoil = value; } }
+    public static float Recoil { get { return recoil; } set { recoil = value; } }
 
     //-----------------------------------
     //Methods
@@ -90,8 +90,6 @@ public class WeaponManager : MonoBehaviour
     void Update()
     {
 
-        Debug.Log(currentWeapon);
-
         if (recoil < maxRecoil)
             recoil += GetCurrentWeapon().GetComponent<Weapon>().recoilSpd * Time.deltaTime;
 
@@ -132,11 +130,11 @@ public class WeaponManager : MonoBehaviour
                 float angle = weaponInventory[currentWeapon].transform.rotation.z;
                 if (inv == 1)
                 {
-                    if (Input.GetKey(KeyCode.I) && angle < 0.5f) //Rotate upwards
+                    if (Input.GetKey(KeyBinding.rotateUpKey) && angle < 0.5f) //Rotate upwards
                     {
                         weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, 1 * Time.deltaTime * rotSpeed), Space.Self);
                     }
-                    else if (Input.GetKey(KeyCode.K) && angle > -0.5f) //Rotate downwards
+                    else if (Input.GetKey(KeyBinding.rotateDownKey) && angle > -0.5f) //Rotate downwards
                     {
                         weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, -1 * Time.deltaTime * rotSpeed), Space.Self);
                     }
@@ -144,11 +142,11 @@ public class WeaponManager : MonoBehaviour
                 else
                 {
 
-                    if (Input.GetKey(KeyCode.I) && angle > -0.5f) //Rotate upwards
+                    if (Input.GetKey(KeyBinding.rotateUpKey) && angle > -0.5f) //Rotate upwards
                     {
                         weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, -1 * Time.deltaTime * rotSpeed), Space.Self);
                     }
-                    else if (Input.GetKey(KeyCode.K) && angle < 0.5f) //Rotate downwards
+                    else if (Input.GetKey(KeyBinding.rotateDownKey) && angle < 0.5f) //Rotate downwards
                     {
                         weaponInventory[currentWeapon].transform.Rotate(new Vector3(0, 0, 1 * Time.deltaTime * rotSpeed), Space.Self);
                     }

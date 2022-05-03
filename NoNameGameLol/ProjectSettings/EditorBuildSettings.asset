@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ExpoColgaia.unity
     guid: a81d99444b2cef142899ab4d39401635
+  - enabled: 0
+    path: Assets/Scenes/BaseScene.unity
+    guid: be3a57b44d7762842a191151d698c9e8
+  - enabled: 1
+    path: Assets/Scenes/HUD.unity
+    guid: 333148a57023eed47bdd0af1eddec8c7
   m_configObjects: {}

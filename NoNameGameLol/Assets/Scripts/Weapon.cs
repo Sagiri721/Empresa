@@ -53,8 +53,8 @@ public class Weapon : MonoBehaviour
     {
 
         if (Input.GetKeyDown(KeyCode.J) && canShoot && movement.IsGrounded &&
-        weaponManager.Recoil >= weaponManager.maxRecoil && WeaponManager.GetCurrentWeapon().GetComponent<Weapon>() == this &&
-        ph.GetCurrentEnergy() >= energyConsume)
+        (WeaponManager.Recoil >= weaponManager.maxRecoil && WeaponManager.GetCurrentWeapon().GetComponent<Weapon>() == this &&
+        PlayerHandler.GetCurrentEnergy() >= energyConsume))
         {
 
             FireProjectile();
@@ -81,7 +81,7 @@ public class Weapon : MonoBehaviour
         {
             audiosource.PlayOneShot(audioShoot);
         }
-        if (weaponManager.Recoil < weaponManager.maxRecoil)
+        if (WeaponManager.Recoil < weaponManager.maxRecoil)
         {
             movement.spd = movement.normalSpd;
             return;
@@ -106,9 +106,9 @@ public class Weapon : MonoBehaviour
         pm.dir = flipX == 1 ? transform.right : -transform.right;
         pm.Damage = damage;
 
-        weaponManager.Recoil = 0;
+        WeaponManager.Recoil = 0;
 
         //Remove energy
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHandler>().energy.Use(energyConsume);
+        PlayerHandler.energy.Use(energyConsume);
     }
 }

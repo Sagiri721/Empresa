@@ -85,7 +85,7 @@ public class SimpleMovement : MonoBehaviour
 
         if (raycast.collider != null && raycast.collider.gameObject.tag == "Player")
         {
-            raycast.collider.gameObject.GetComponent<PlayerHandler>().hp.Hurt(50);
+            PlayerHandler.hp.Hurt(50);
         }
 
         Invoke("Remove", 0.5f);

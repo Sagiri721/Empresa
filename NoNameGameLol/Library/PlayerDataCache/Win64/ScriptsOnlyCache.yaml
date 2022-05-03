@@ -17,27 +17,16 @@ ScriptsOnlyBuild:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.IK.Editor.dll:
     - UnityEditor.U2D.IK.IKEditorManager
-    - UnityEditor.U2D.IK.IKGizmos
     Unity.2D.Tilemap.Editor.dll:
-    - UnityEditor.Tilemaps.GridBrush
-    - UnityEditor.Tilemaps.GridPaintPaletteClipboard
-    - UnityEditor.Tilemaps.GridPaintPaletteWindow
     - UnityEditor.Tilemaps.GridPaintingState
     - UnityEditor.Tilemaps.GridPaletteBrushes
     - UnityEditor.Tilemaps.GridPalettes
-    - UnityEditor.Tilemaps.PaintableSceneViewGrid
     - UnityEditor.Tilemaps.SceneViewGridManager
     - UnityEditor.Tilemaps.SceneViewOpenTilePaletteHelper
     - UnityEditor.Tilemaps.TileDragAndDropManager
     - UnityEditor.Tilemaps.TilemapPrefabStageHelper
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
-    UnityEditor.Graphs.dll:
-    - UnityEditor.Graphs.AnimationBlendTree.Graph
-    - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.Graph
-    - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -84,39 +73,39 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 626}
+      Script: {instanceID: 628}
     - Class: 114
-      Script: {instanceID: 1458}
+      Script: {instanceID: 1460}
     - Class: 114
-      Script: {instanceID: 1710}
+      Script: {instanceID: 1712}
     - Class: 114
-      Script: {instanceID: 1800}
+      Script: {instanceID: 1802}
     - Class: 114
-      Script: {instanceID: 2254}
+      Script: {instanceID: 2256}
     - Class: 114
-      Script: {instanceID: 2632}
+      Script: {instanceID: 2634}
     - Class: 114
-      Script: {instanceID: 2646}
+      Script: {instanceID: 2648}
     - Class: 114
-      Script: {instanceID: 2660}
-    - Class: 114
-      Script: {instanceID: 2684}
+      Script: {instanceID: 2662}
     - Class: 114
       Script: {instanceID: 2686}
     - Class: 114
-      Script: {instanceID: 3090}
+      Script: {instanceID: 2688}
     - Class: 114
-      Script: {instanceID: 3192}
+      Script: {instanceID: 3092}
     - Class: 114
-      Script: {instanceID: 3932}
+      Script: {instanceID: 3194}
     - Class: 114
-      Script: {instanceID: 4338}
+      Script: {instanceID: 3934}
     - Class: 114
-      Script: {instanceID: 4462}
+      Script: {instanceID: 4340}
     - Class: 114
-      Script: {instanceID: 5056}
+      Script: {instanceID: 4464}
     - Class: 114
-      Script: {instanceID: 5680}
+      Script: {instanceID: 5058}
+    - Class: 114
+      Script: {instanceID: 5682}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120
@@ -739,4 +728,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/ExpoColgaia.unity
-  playerPath: D:/TIAGO/game/project/Demo/Demo version.exe
+  playerPath: C:/Projeto/Demo/Demo version.exe
